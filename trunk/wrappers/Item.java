@@ -2,11 +2,11 @@ package bot.script.wrappers;
 
 import java.awt.Point;
 
+import bot.script.enums.Tab;
 import bot.script.methods.Game;
 import bot.script.methods.Menu;
 import bot.script.methods.Methods;
 import bot.script.methods.Mouse;
-import bot.script.methods.Game.Tabs;
 
 /**
  * 
@@ -48,8 +48,8 @@ public class Item extends Methods{
 	}
 	
 	public boolean interact(String action){
-		if (Game.getTab() != Tabs.INVENTORY){
-			Game.openTab(Tabs.INVENTORY);
+		if (Game.getTab() != Tab.INVENTORY){
+			Game.openTab(Tab.INVENTORY);
 		}
 		Mouse.move(getPoint());
 		sleep(200);

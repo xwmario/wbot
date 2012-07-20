@@ -3,7 +3,7 @@ package bot.script.methods;
 import java.awt.Point;
 
 import bot.Bot;
-import bot.script.methods.Game.Tabs;
+import bot.script.enums.Tab;
 import bot.script.util.Random;
 import bot.script.wrappers.Interface;
 import bot.script.wrappers.Path;
@@ -59,11 +59,11 @@ public class Walking extends Methods implements Runnable{
 	}
 	
 	public static void setRun(boolean on){
-		if (Game.getTab() != Tabs.CONTROLS){
-			Game.openTab(Tabs.CONTROLS);
+		if (Game.getTab() != Tab.CONTROLS){
+			Game.openTab(Tab.CONTROLS);
 			sleep(200);
 		}
-		if (Game.getTab() == Tabs.CONTROLS){
+		if (Game.getTab() == Tab.CONTROLS){
 			Interface iface = Interfaces.getInterface(147, on ? 153 : 152);
 			iface.click();
 		}
