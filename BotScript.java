@@ -10,7 +10,7 @@ import bot.service.ScriptDefinition;
 
 public abstract class BotScript extends Methods implements Runnable{
 	private ScriptDefinition scriptDefinition;
-	private boolean stop = false;
+	public boolean stop = false;
 	
 	public void setScriptDefinition(ScriptDefinition def){
 		this.scriptDefinition = def;
@@ -41,7 +41,7 @@ public abstract class BotScript extends Methods implements Runnable{
 	@Override
 	public void run(){
 		stop = !onStart();
-		
+				
 		while(!stop){
 			try{
 				if (!Game.inGame() && Bot.getClient().getUsername().length() > 1 && Bot.getClient().getPassword().length() > 1){
@@ -61,7 +61,24 @@ public abstract class BotScript extends Methods implements Runnable{
 				if (!Game.inGame()){
 					break;
 				}
-				int wait = loop();
+				
+				int wait = -1;
+				if (!(this instanceof Random))
+					for(Random r : Bot.getInstance().getRandoms()){
+						if (r.isValid()){
+							log(r.getName() + "event started");
+							r.onStart();
+							while(r.isValid() && !stop && !r.stop){
+								wait = r.loop();
+								if (wait < 0) break;
+								sleep(wait);
+							}
+							r.onFinish();
+							log(r.getName() + "event stopped");
+						}
+					}
+				
+				wait = loop();
 				if (wait < 0){
 					break;
 				}
