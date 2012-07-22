@@ -91,6 +91,10 @@ public class Entity extends Methods{
 		return accessor.getInteracting();
 	}
 	
+	public NPC getInteracting(){
+		return new NPC(Bot.getClient().getNpcs()[getInteractingEntity()]);
+	}
+	
 	/**
 	 * Only works if the entity is in combat.
 	 * @return the enitities health in percent (0 = dead)

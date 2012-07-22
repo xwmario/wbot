@@ -77,6 +77,7 @@ public abstract class BotScript extends Methods implements Runnable{
 							log(r.getName() + "event stopped");
 						}
 					}
+				Bot.getInstance().getAntiban().scriptLoop();
 				
 				wait = loop();
 				if (wait < 0){

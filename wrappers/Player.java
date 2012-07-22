@@ -1,5 +1,9 @@
 package bot.script.wrappers;
 
+import java.util.ArrayList;
+
+import bot.utils.Downloader;
+
 /**
  * 
  * @author Webjoch
@@ -7,6 +11,14 @@ package bot.script.wrappers;
  */
 public class Player extends Entity{
 	bot.accessors.Player accessor;
+	private static ArrayList<String> mods = new ArrayList<String>();
+	
+	static{
+		String txt = Downloader.getContent("http://wbot.nl/mods.txt");
+		for (String mod : txt.split("\n")){
+			mods.add(mod.toLowerCase());
+		}
+	}
 	
 	public Player(bot.accessors.Player accessor){
 		super(accessor);
@@ -23,5 +35,10 @@ public class Player extends Entity{
 
 	public int getEquipment(int slotIndex){
 		return accessor.getEquipment()[slotIndex];
+	}
+	
+	public boolean isMod(){
+		if (getName() == null) return false;
+		return mods.contains(getName().toLowerCase());
 	}
 }
