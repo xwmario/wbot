@@ -3,6 +3,7 @@ package bot.script.methods;
 import java.awt.Point;
 
 import bot.Bot;
+import bot.accessors.CollisionMap;
 import bot.script.enums.Tab;
 import bot.script.util.Random;
 import bot.script.wrappers.Interface;
@@ -14,7 +15,7 @@ import bot.script.wrappers.Tile;
  * @author Webjoch
  *
  */
-public class Walking extends Methods implements Runnable{
+public class Walking extends Methods{
 	/**
 	 * Walks to the given tile using the minimap.
 	 *
@@ -94,9 +95,10 @@ public class Walking extends Methods implements Runnable{
 		if (getDestination().getX() == base.getX() && getDestination().getY() == base.getY()) return true;
 		return getDestination().distance() < 5 && Calculations.distanceBetween(getDestination(), destination) > 4;
 	}
-
-	@Override
-	public void run() {
-		Camera.setAngle(Camera.getAngle());
+	
+	public boolean isTileWalkable(int tileX, int tileY, int plane){
+		CollisionMap[] info = Bot.getClient().getTileInfo();
+		int[][] data = info[plane].getTileData();
+		return (data[tileX][tileY]) == 0;
 	}
 }
