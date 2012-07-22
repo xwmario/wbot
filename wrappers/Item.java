@@ -2,6 +2,8 @@ package bot.script.wrappers;
 
 import java.awt.Point;
 
+import bot.Bot;
+import bot.accessors.ItemDef;
 import bot.script.enums.Tab;
 import bot.script.methods.Game;
 import bot.script.methods.Menu;
@@ -54,5 +56,9 @@ public class Item extends Methods{
 		Mouse.move(getPoint());
 		sleep(200);
 		return Menu.interact(action);
+	}
+
+	public ItemDef getDef(){
+		return Bot.getClient().getItemDef(getId());
 	}
 }
