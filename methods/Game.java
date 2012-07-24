@@ -39,4 +39,12 @@ public class Game extends Methods{
 		}
 		Interfaces.getInterface(2449, 2458).click();
 	}
+	
+	public static int getEnergy(){
+		return Bot.getClient().getEnergy();
+	}
+	
+	public static int getWeight(){
+		return Bot.getClient().getWeight();
+	}
 }
