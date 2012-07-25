@@ -25,8 +25,12 @@ public class Objects{
 		
 		if (Bot.getClient().getWorldController() == null) return null;
 		
-		Ground ground = Bot.getClient().getWorldController().getGround()[Bot.getClient().getPlane()][xx][yy];
-		
+		Ground ground;
+		try{
+			ground = Bot.getClient().getWorldController().getGround()[Bot.getClient().getPlane()][xx][yy];
+		}catch(ArrayIndexOutOfBoundsException e){
+			return null;
+		}
 		if (ground == null) return null;
 		if (ground.getObject5()[0] != null) return new GameObject(ground.getObject5()[0], x, y);
 		if (ground.getObject1() != null) return new GameObject(ground.getObject1(), x, y);

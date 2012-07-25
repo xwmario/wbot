@@ -3,6 +3,7 @@ package bot.script.methods;
 import java.util.ArrayList;
 
 import bot.Bot;
+import bot.script.wrappers.GameObject;
 import bot.script.wrappers.Interface;
 import bot.script.wrappers.Item;
 
@@ -59,5 +60,18 @@ public class Inventory extends Methods{
 				return true;
 		}
 		return false;
+	}
+	
+	public static boolean itemOnObject(Item item, GameObject object){
+		if (item == null || object == null || !Inventory.contains(item.getId()) || !object.isVisible())
+			return false;
+		item.interact("use");
+		sleep(500);
+		object.click();
+		return true;
+	}
+	
+	public static boolean itemOnObject(int itemId, GameObject object){
+		return itemOnObject(Inventory.getItem(itemId), object);
 	}
 }
