@@ -41,4 +41,9 @@ public class Player extends Entity{
 		if (getName() == null) return false;
 		return mods.contains(getName().toLowerCase());
 	}
+	
+	public Model getModel(){
+		System.out.println(accessor.getRotatedModel());
+		return null;
+	}
 }

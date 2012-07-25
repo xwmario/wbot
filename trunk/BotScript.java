@@ -10,6 +10,7 @@ import bot.service.ScriptDefinition;
 
 public abstract class BotScript extends Methods implements Runnable{
 	private ScriptDefinition scriptDefinition;
+	private boolean pause = false;
 	public boolean stop = false;
 	
 	public void setScriptDefinition(ScriptDefinition def){
@@ -34,16 +35,30 @@ public abstract class BotScript extends Methods implements Runnable{
 		return scriptDefinition;
 	}
 	
+	public void pause(){
+		pause = !pause;
+	}
+	
 	public void stop(){
 		stop = true;
 	}
 	
 	@Override
 	public void run(){
-		stop = !onStart();
-				
+		try{
+			stop = !onStart();
+		}catch(Exception e){
+			stop = false;
+			e.printStackTrace();
+		}
+		mainLoop:
 		while(!stop){
 			try{
+				while(pause){
+					sleep(75);
+					if (stop)
+						break mainLoop;
+				}
 				if (!Game.inGame() && Bot.getClient().getUsername().length() > 1 && Bot.getClient().getPassword().length() > 1){
 					if (Bot.getClient().getLoginState() == 2){
 						Mouse.move(305, 325);
@@ -89,6 +104,7 @@ public abstract class BotScript extends Methods implements Runnable{
 			}
 		}
 		log.info(scriptDefinition.name + " stopped");
+		Bot.getInstance().scriptStopped();
 	}
 	
 }
