@@ -1,7 +1,5 @@
 package bot.script.methods;
 
-import java.awt.Point;
-
 import bot.Bot;
 import bot.accessors.CollisionMap;
 import bot.script.enums.Tab;
@@ -23,10 +21,7 @@ public class Walking extends Methods{
 	 */
 	public static void walkTo(Tile dest){
 		dest = getClosestTileOnMap(dest);
-		Point p = Calculations.tileToMinimap(dest);
-		Mouse.move(p);
-		sleep(50);
-		Mouse.click(true);
+		dest.clickMinimap();
 	}
 	
 	/**

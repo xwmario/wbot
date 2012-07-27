@@ -48,7 +48,7 @@ public abstract class BotScript extends Methods implements Runnable{
 		try{
 			stop = !onStart();
 		}catch(Exception e){
-			stop = false;
+			stop = true;
 			e.printStackTrace();
 		}
 		mainLoop:

@@ -47,4 +47,8 @@ public class Game extends Methods{
 	public static int getWeight(){
 		return Bot.getClient().getWeight();
 	}
+	
+	public static boolean roofsShowed(){
+		return Bot.getClient().getWorldController() != null && Bot.getClient().getWorldController().getRoofsData() == 3; 
+	}
 }
