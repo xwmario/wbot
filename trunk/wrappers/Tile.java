@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import bot.script.methods.Calculations;
 import bot.script.methods.Menu;
+import bot.script.methods.Methods;
 import bot.script.methods.Mouse;
 
 /**
@@ -38,6 +39,13 @@ public class Tile {
 	
 	public boolean click(){
 		return interact("Walk here");
+	}
+	
+	public void clickMinimap(){
+		Point p = Calculations.tileToMinimap(this);
+		Mouse.move(p);
+		Methods.sleep(50);
+		Mouse.click(true);
 	}
 	
 	public double distance(){
