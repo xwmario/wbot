@@ -15,6 +15,7 @@ public class GroundItems {
 			for(int x = 0; x < nl.length; x++){
 				for(int y = 0; y < nl[x].length; y++){
 					NodeList nodeList = nl[x][y];
+					if (nodeList != null)
 					if (nodeList != null && nodeList.getHead() != null && nodeList.getHead().getPrev() instanceof Item){
 						Item i = (Item) nodeList.getHead().getPrev();
 						gi.add(new GroundItem(i, x, y));

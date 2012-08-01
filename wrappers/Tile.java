@@ -1,6 +1,9 @@
 package bot.script.wrappers;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Polygon;
 
 import bot.script.methods.Calculations;
 import bot.script.methods.Menu;
@@ -59,5 +62,29 @@ public class Tile {
 	
 	public String toString(){
 		return "[Tile: x: "+x+" y:"+y+"]";
+	}
+	
+	public Polygon getPolygon(){
+		Polygon p = new Polygon();
+		Tile[] tiles = new Tile[]{new Tile(getX(), getY() + 1), this, new Tile(getX() + 1, getY()), new Tile(getX() + 1, getY() + 1)};
+		for(Tile t : tiles){
+			p.addPoint(t.toScreen().x, t.toScreen().y);
+		}
+		return p;
+	}
+	
+	public void draw(Graphics g){
+		g.setColor(Color.black);
+		g.drawPolygon(getPolygon());
+		g.setColor(new Color(255, 0, 0, 50));
+		g.fillPolygon(getPolygon());
+	}
+	
+	public void draw(Graphics g, Color c, boolean fill){
+		g.setColor(c);
+		if (fill)
+			g.fillPolygon(getPolygon());
+		else
+			g.drawPolygon(getPolygon());
 	}
 }

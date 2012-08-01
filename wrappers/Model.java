@@ -1,18 +1,12 @@
 package bot.script.wrappers;
 
-import java.awt.Point;
-import java.awt.Polygon;
-import java.util.LinkedList;
-
-import bot.script.methods.Calculations;
-
 /**
  * 
  * @author Webjoch
  *
  */
 public class Model {
-	bot.accessors.Model accessor;
+	/*bot.accessors.Model accessor;
 	
 	int localX, localY;
 	
@@ -37,5 +31,5 @@ public class Model {
 			}
 		}
 		return polygons.toArray(new Polygon[polygons.size()]);
-	}
+	}*/
 }

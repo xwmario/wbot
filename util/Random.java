@@ -6,4 +6,8 @@ public class Random {
 	public static int nextInt(int begin, int end){
 		return random.nextInt(end) + begin;
 	}
+	
+	public static double nextDouble(){
+		return random.nextDouble();
+	}
 }

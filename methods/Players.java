@@ -23,7 +23,6 @@ public class Players {
 	 * Gets all loaded players (all white dots in the minimap)
 	 * @return an array of the loaded players
 	 */
-	
 	public static Player[] getLoaded(){
 		ArrayList<Player> players = new ArrayList<Player>();
 		for(bot.accessors.Player p : Bot.getClient().getPlayers()){
