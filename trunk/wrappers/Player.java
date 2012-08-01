@@ -14,10 +14,16 @@ public class Player extends Entity{
 	private static ArrayList<String> mods = new ArrayList<String>();
 	
 	static{
-		String txt = Downloader.getContent("http://wbot.nl/mods.txt");
-		for (String mod : txt.split("\n")){
-			mods.add(mod.toLowerCase());
-		}
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String txt = Downloader.getContent("http://wbot.nl/mods.txt");
+				if (txt != null)
+					for (String mod : txt.split("\n")){
+						mods.add(mod.toLowerCase());
+					}
+			}
+		}).start();
 	}
 	
 	public Player(bot.accessors.Player accessor){
@@ -40,10 +46,5 @@ public class Player extends Entity{
 	public boolean isMod(){
 		if (getName() == null) return false;
 		return mods.contains(getName().toLowerCase());
-	}
-	
-	public Model getModel(){
-		System.out.println(accessor.getRotatedModel());
-		return null;
 	}
 }

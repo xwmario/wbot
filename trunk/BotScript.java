@@ -10,8 +10,13 @@ import bot.service.ScriptDefinition;
 
 public abstract class BotScript extends Methods implements Runnable{
 	private ScriptDefinition scriptDefinition;
+	private Thread thread = new Thread(this);
 	private boolean pause = false;
 	public boolean stop = false;
+	
+	public Thread getThread(){
+		return thread;
+	}
 	
 	public void setScriptDefinition(ScriptDefinition def){
 		this.scriptDefinition = def;

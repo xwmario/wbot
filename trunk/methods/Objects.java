@@ -1,7 +1,6 @@
 package bot.script.methods;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import bot.Bot;
 import bot.accessors.Ground;
@@ -36,7 +35,6 @@ public class Objects{
 		if (ground.getObject1() != null) return new GameObject(ground.getObject1(), x, y);
 		if (ground.getObject2() != null) return new GameObject(ground.getObject2(), x, y);
 		if (ground.getObject3() != null) return new GameObject(ground.getObject3(), x, y);
-		if (ground.getObject4() != null) return new GameObject(ground.getObject4(), x, y);
 		return null;
 	}
 	
@@ -47,7 +45,6 @@ public class Objects{
 	 */
 	public static GameObject[] getLoaded(){
 		ArrayList<GameObject> objects = new ArrayList<GameObject>();
-		HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
 		
 		for (Ground[][] ground : Bot.getClient().getWorldController().getGround()){
 			for(int x = 0; x < ground.length; x++){
@@ -68,7 +65,6 @@ public class Objects{
 					}
 					if (object != null){
 						objects.add(object);
-						counts.put(object.getId(), counts.get(object.getId()) == null ? 1 : counts.get(object.getId()) + 1);
 					}
 				}
 			}
