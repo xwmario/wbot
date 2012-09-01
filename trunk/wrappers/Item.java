@@ -2,8 +2,9 @@ package bot.script.wrappers;
 
 import java.awt.Point;
 
-import bot.Bot;
-import bot.accessors.ItemDef;
+import nl.wbot.bot.Bot;
+import nl.wbot.bot.accessors.ItemDef;
+
 import bot.script.enums.Tab;
 import bot.script.methods.Game;
 import bot.script.methods.Menu;
@@ -14,7 +15,6 @@ import bot.script.methods.Mouse;
  * 
  * @author Webjoch
  * 
- * NOTE: The values won't change if it change ingame.
  */
 public class Item extends Methods{
 	int index, id;
@@ -43,8 +43,8 @@ public class Item extends Methods{
 			x = (index % 8) * 46 + iface.getPoint().x + 20;
 			y = (index / 8) * 35 + iface.getPoint().y + 20;
 		}else{
-			x = (index % 4) * 41 + iface.getPoint().x + 20;
-			y = (index / 4) * 35 + iface.getPoint().y + 20;
+			x = (index % 4) * 41 + iface.getPoint().x + 16;
+			y = (index / 4) * 35 + iface.getPoint().y + 16;
 		}
 		return new Point(x, y);
 	}
@@ -59,6 +59,6 @@ public class Item extends Methods{
 	}
 
 	public ItemDef getDef(){
-		return Bot.getClient().getItemDef(getId());
+		return Bot.get().getMainClass().getItemDef(getId());
 	}
 }

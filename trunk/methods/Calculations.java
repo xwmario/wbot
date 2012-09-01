@@ -3,8 +3,9 @@ package bot.script.methods;
 import java.awt.*;
 import java.util.Random;
 
-import bot.Bot;
-import bot.accessors.Client;
+import nl.wbot.bot.Bot;
+import nl.wbot.bot.accessors.Client;
+
 import bot.script.wrappers.Tile;
 
 public class Calculations{
@@ -35,17 +36,17 @@ public class Calculations{
 	}
 	
 	public static Point tileToMinimap(Tile tile) {
-		int x = tile.getX() - Bot.getClient().getBaseX();
-		int y = tile.getY() - Bot.getClient().getBaseY();
+		int x = tile.getX() - Bot.get().getMainClass().getBaseX();
+		int y = tile.getY() - Bot.get().getMainClass().getBaseY();
 		return worldToMinimap((x * 4 + 2) - Players.getLocal().getRealX() / 32, (y * 4 + 2) - Players.getLocal().getRealY() / 32);
 	}
 	
 	public static Point tileToScreen(int x, int y, int height) {
-        return worldToScreen((x - Bot.getClient().getBaseX()) * 128, (y - Bot.getClient().getBaseY()) * 128, height);
+        return worldToScreen((x - Bot.get().getMainClass().getBaseX()) * 128, (y - Bot.get().getMainClass().getBaseY()) * 128, height);
     }
 	
 	public static int tileHeight(int x, int y) {
-		final Client client = Bot.getClient();
+		final Client client = Bot.get().getMainClass();
         final int[][][] groundHeights = client.getGroundData();
         if(groundHeights == null)
             return 0;
@@ -66,17 +67,17 @@ public class Calculations{
 	public static Point worldToScreen(double X, double Y, int height) {
 		X += 5;
 		Y -= 11;
-		if (X < 128 || Y < 128 || X > 13056 || Y > 13056 || Bot.getClient().getGroundData() == null) {
+		if (X < 128 || Y < 128 || X > 13056 || Y > 13056 || Bot.get().getMainClass().getGroundData() == null) {
 			return new Point(-1,-1);
 		}
 		int tileCalculation = tileHeight((int) X, (int) Y) - height;
-		X -= Bot.getClient().getXCameraPos();
-		tileCalculation -= Bot.getClient().getZCameraPos();
-		int curvexsin = CURVESIN[Bot.getClient().getXCameraCurve()];
-		int curvexcos = CURVECOS[Bot.getClient().getXCameraCurve()];
-		Y -= Bot.getClient().getYCameraPos();
-		int curveysin = CURVESIN[Bot.getClient().getYCameraCurve()];
-		int curveycos = CURVECOS[Bot.getClient().getYCameraCurve()];
+		X -= Bot.get().getMainClass().getXCameraPos();
+		tileCalculation -= Bot.get().getMainClass().getZCameraPos();
+		int curvexsin = CURVESIN[Bot.get().getMainClass().getXCameraCurve()];
+		int curvexcos = CURVECOS[Bot.get().getMainClass().getXCameraCurve()];
+		Y -= Bot.get().getMainClass().getYCameraPos();
+		int curveysin = CURVESIN[Bot.get().getMainClass().getYCameraCurve()];
+		int curveycos = CURVECOS[Bot.get().getMainClass().getYCameraCurve()];
 		int calculation = curvexsin * (int) Y + ((int) X * curvexcos) >> 16;
 		Y = -(curvexsin * (int) X) + (int) Y * curvexcos >> 16;
 		X = calculation;
@@ -93,14 +94,14 @@ public class Calculations{
 	}
 	
 	private static Point worldToMinimap(int regionX, int regionY){
-	    int angle = Bot.getClient().getMinimapInt1() + Bot.getClient().getMinimapInt2() & 0x7FF;
+	    int angle = Bot.get().getMainClass().getMinimapInt1() + Bot.get().getMainClass().getMinimapInt2() & 0x7FF;
 	    int j = regionX * regionX + regionY * regionY;
 	 
 	    if (j > 6400)
 	        return new Point(-1, -1);
 	 
-	    int sin = Calculations.CURVESIN[angle] * 256 / (Bot.getClient().getMinimapInt3() + 256);
-	    int cos = Calculations.CURVECOS[angle] * 256 / (Bot.getClient().getMinimapInt3() + 256);
+	    int sin = Calculations.CURVESIN[angle] * 256 / (Bot.get().getMainClass().getMinimapInt3() + 256);
+	    int cos = Calculations.CURVECOS[angle] * 256 / (Bot.get().getMainClass().getMinimapInt3() + 256);
 	 
 	    int x = regionY * sin + regionX * cos >> 16;
 	    int y = regionY * cos - regionX * sin >> 16;

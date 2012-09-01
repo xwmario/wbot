@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
+
 import bot.script.wrappers.Interface;
 /**
  * 
@@ -18,8 +19,8 @@ public class Interfaces {
 	 */
 	public static Interface[] getParentInterfaces(){
 		Map<Integer, Interface> topInterfaces = new HashMap<Integer, Interface>();
-		if (Bot.getClient().getInterfaces() != null)
-			for (bot.accessors.Interface iface : Bot.getClient().getInterfaces()){
+		if (Bot.get().getMainClass().getInterfaces() != null)
+			for (nl.wbot.bot.accessors.Interface iface : Bot.get().getMainClass().getInterfaces()){
 				if (iface == null) continue;
 				if (topInterfaces.get(iface.getId()) == null && iface.getParentId() == iface.getId()){
 					topInterfaces.put(iface.getId(), new Interface(iface, 0, 0));
@@ -52,7 +53,7 @@ public class Interfaces {
 	 * @return the interface
 	 */
 	public static Interface getInterface(int id){
-		bot.accessors.Interface iface = Bot.getClient().getInterfaces()[id];
+		nl.wbot.bot.accessors.Interface iface = Bot.get().getMainClass().getInterfaces()[id];
 		if (iface.getId() == iface.getParentId()) return new Interface(iface, 0, 0);
 		return getInterface(iface.getParentId(), id);
 	}

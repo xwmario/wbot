@@ -1,6 +1,6 @@
 package bot.script.methods;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
 import bot.script.enums.Skill;
 /**
  * 
@@ -14,7 +14,7 @@ public class Skills{
 	 * @return the xp
 	 */
 	public static int getXp(int skill){
-		return Bot.getClient().getCurrentXp()[skill];
+		return Bot.get().getMainClass().getCurrentXp()[skill];
 	}
 	
 	public static int getXp(Skill skill){

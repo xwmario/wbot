@@ -1,6 +1,6 @@
 package bot.script.methods;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
 import bot.script.enums.Tab;
 
 /**
@@ -10,16 +10,16 @@ import bot.script.enums.Tab;
  */
 public class Game extends Methods{
 	public static int getPlane(){
-		return Bot.getClient().getPlane();
+		return Bot.get().getMainClass().getPlane();
 	}
 	
 	public static boolean inGame(){
-		return Bot.getClient().isLoggedIn();
+		return Bot.get().getMainClass().isLoggedIn();
 	}
 	
 	public static Tab getTab(){
 		for(Tab tab : Tab.values()){
-			if (tab.getId() == Bot.getClient().getTabId()){
+			if (tab.getId() == Bot.get().getMainClass().getTabId()){
 				return tab;
 			}
 		}
@@ -41,14 +41,18 @@ public class Game extends Methods{
 	}
 	
 	public static int getEnergy(){
-		return Bot.getClient().getEnergy();
+		return Bot.get().getMainClass().getEnergy();
 	}
 	
 	public static int getWeight(){
-		return Bot.getClient().getWeight();
+		return Bot.get().getMainClass().getWeight();
 	}
 	
 	public static boolean roofsShowed(){
-		return Bot.getClient().getWorldController() != null && Bot.getClient().getWorldController().getRoofsData() == 3; 
+		return Bot.get().getMainClass().getWorldController() != null && Bot.get().getMainClass().getWorldController().getRoofsData() == 3; 
+	}
+	
+	public int[] getSettings(){
+		return Bot.get().getMainClass().getSettings();
 	}
 }

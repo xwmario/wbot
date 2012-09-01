@@ -2,7 +2,8 @@ package bot.script.methods;
 
 import java.util.ArrayList;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
+
 import bot.script.wrappers.Player;
 /**
  * 
@@ -15,8 +16,8 @@ public class Players {
 	 * @return your character
 	 */
 	public static Player getLocal(){
-		if (Bot.getClient().getMyPlayer() == null) return null;
-		return new Player(Bot.getClient().getMyPlayer());
+		if (Bot.get().getMainClass().getMyPlayer() == null) return null;
+		return new Player(Bot.get().getMainClass().getMyPlayer());
 	}
 	
 	/**
@@ -25,7 +26,7 @@ public class Players {
 	 */
 	public static Player[] getLoaded(){
 		ArrayList<Player> players = new ArrayList<Player>();
-		for(bot.accessors.Player p : Bot.getClient().getPlayers()){
+		for(nl.wbot.bot.accessors.Player p : Bot.get().getMainClass().getPlayers()){
 			if (p == null) continue;
 			players.add(new Player(p));
 		}
