@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
+
+import bot.script.enums.InterfacePosition;
 import bot.script.methods.Methods;
 import bot.script.methods.Mouse;
 /**
@@ -14,47 +16,32 @@ import bot.script.methods.Mouse;
  *
  */
 public class Interface extends Methods{
-	bot.accessors.Interface accessor;
+	nl.wbot.bot.accessors.Interface accessor;
 	Point point;
 	
-	public Interface(bot.accessors.Interface accessor, int x, int y){
+	public Interface(nl.wbot.bot.accessors.Interface accessor, int x, int y){
 		this.accessor = accessor;
 		this.point = new Point(x, y);
-		switch(getId()){
 		
-		case 306:
-		case 310:
-		case 315:
-		case 321:
-		case 356:
-		case 359:
-		case 2459:
-		case 4882:
-		case 4887:
-			this.point = new Point(13, 353);
-			break;
-			
-		case 139:
-			this.point = new Point(15, 350);
-			break;
-		
-		case 147:
-		case 328:
-		case 3213:
-		case 2449:
-		case 5063:
-			this.point = new Point(549, 201);
-			break;
+		if (inArray(InterfacePosition.CHAT_POSITIONS, getId())){
+			setPosition(InterfacePosition.CHAT);
+		}
+		if (inArray(InterfacePosition.TAB_POSITIONS, getId())){
+			setPosition(InterfacePosition.TAB);
 		}
 	}
 	
-	/**
-	 * Because the bot doesn't know the absolute location of the interface, you can set by yourself. NOTE: Use this only for top level interfaces (parent interfaces)!
-	 * @param x
-	 * @param y
-	 */
+	@Deprecated
 	public void setPosition(int x, int y){
 		this.point = new Point(x, y);
+	}
+	
+	/**
+	 * Sets the relative position of the interface. This method is only needed for the parent interface.
+	 * @param position
+	 */
+	public void setPosition(InterfacePosition position){
+		this.point = position.getPoint();
 	}
 	
 	public int getId(){
@@ -74,7 +61,7 @@ public class Interface extends Methods{
 	}
 	
 	public Interface getParent(){
-		return new Interface(Bot.getClient().getInterfaces()[getParentId()], -1, -1);
+		return new Interface(Bot.get().getMainClass().getInterfaces()[getParentId()], -1, -1);
 	}
 	
 	public int getParentId(){
@@ -86,6 +73,9 @@ public class Interface extends Methods{
 	 * @return the location in the screen
 	 */
 	public Point getPoint(){
+		if (point.x == 0 && point.y == 0 && getParentId() == getId()){
+			point = new Point(4, 4);
+		}
 		return point;
 	}
 	
@@ -115,7 +105,7 @@ public class Interface extends Methods{
 	
 	public void paint(Graphics g){
 		g.setColor(Color.yellow);
-		g.drawRect(getPoint().x, getPoint().y, getWidth(), getHeight());
+		g.drawRect(getPoint().x -4, getPoint().y-3, getWidth(), getHeight());
 	}
 	
 	public Interface getChild(int id){
@@ -140,7 +130,7 @@ public class Interface extends Methods{
 		int i = 0;
 		if (getChildsIds() == null) return null;
 		for (int childId : getChildsIds()){
-			bot.accessors.Interface iface = Bot.getClient().getInterfaces()[childId];
+			nl.wbot.bot.accessors.Interface iface = Bot.get().getMainClass().getInterfaces()[childId];
 			if (iface.getId() == getId()){
 				childs.add(new Interface(iface, 0, 0));
 			}else{

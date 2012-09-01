@@ -5,9 +5,9 @@ package bot.script.wrappers;
  *
  */
 public class EntityDef {
-	bot.accessors.EntityDef accessor;
+	nl.wbot.bot.accessors.EntityDef accessor;
 	
-	public EntityDef(bot.accessors.EntityDef accessor){
+	public EntityDef(nl.wbot.bot.accessors.EntityDef accessor){
 		this.accessor = accessor;
 	}
 	

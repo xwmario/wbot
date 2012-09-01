@@ -2,8 +2,9 @@ package bot.script.methods;
 
 import java.util.ArrayList;
 
-import bot.Bot;
-import bot.accessors.Ground;
+import nl.wbot.bot.Bot;
+import nl.wbot.bot.accessors.Ground;
+
 import bot.script.util.Filter;
 import bot.script.wrappers.GameObject;
 /**
@@ -19,14 +20,14 @@ public class Objects{
 	 * @return
 	 */
 	public static GameObject getObject(int x, int y){
-		int xx = x - Bot.getClient().getBaseX();
-		int yy = y - Bot.getClient().getBaseY();
+		int xx = x - Bot.get().getMainClass().getBaseX();
+		int yy = y - Bot.get().getMainClass().getBaseY();
 		
-		if (Bot.getClient().getWorldController() == null) return null;
+		if (Bot.get().getMainClass().getWorldController() == null) return null;
 		
 		Ground ground;
 		try{
-			ground = Bot.getClient().getWorldController().getGround()[Bot.getClient().getPlane()][xx][yy];
+			ground = Bot.get().getMainClass().getWorldController().getGround()[Bot.get().getMainClass().getPlane()][xx][yy];
 		}catch(ArrayIndexOutOfBoundsException e){
 			return null;
 		}
@@ -46,20 +47,20 @@ public class Objects{
 	public static GameObject[] getLoaded(){
 		ArrayList<GameObject> objects = new ArrayList<GameObject>();
 		
-		for (Ground[][] ground : Bot.getClient().getWorldController().getGround()){
+		for (Ground[][] ground : Bot.get().getMainClass().getWorldController().getGround()){
 			for(int x = 0; x < ground.length; x++){
 				for(int y = 0; y < ground[x].length; y++){
 					Ground g = ground[x][y];
 					if (g == null) continue;
 					GameObject object = null;
-					if (g.getObject1() != null) object = new GameObject(g.getObject1(), x + Bot.getClient().getBaseX(), y + Bot.getClient().getBaseY());
-					if (g.getObject2() != null) object = new GameObject(g.getObject2(), x + Bot.getClient().getBaseX(), y + Bot.getClient().getBaseY());
-					if (g.getObject3() != null) object = new GameObject(g.getObject3(), x + Bot.getClient().getBaseX(), y + Bot.getClient().getBaseY());
-					//if (g.getObject4() != null) objects.add(new GameObject(g.getObject4(), x + Bot.getClient().getBaseX(), y + Bot.getClient().getBaseY()));
+					if (g.getObject1() != null) object = new GameObject(g.getObject1(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
+					if (g.getObject2() != null) object = new GameObject(g.getObject2(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
+					if (g.getObject3() != null) object = new GameObject(g.getObject3(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
+					//if (g.getObject4() != null) objects.add(new GameObject(g.getObject4(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY()));
 					if (g.getObject5() != null && g.getObject5().length > 0){
-						for (bot.accessors.GameObject object5 : g.getObject5()){
+						for (nl.wbot.bot.accessors.GameObject object5 : g.getObject5()){
 							if (object5 != null){
-								object = new GameObject(object5, x + Bot.getClient().getBaseX(), y + Bot.getClient().getBaseY());
+								object = new GameObject(object5, x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
 							}
 						}
 					}

@@ -1,7 +1,7 @@
 package bot.script.methods;
 
-import bot.Bot;
-import bot.accessors.CollisionMap;
+import nl.wbot.bot.Bot;
+import nl.wbot.bot.accessors.CollisionMap;
 import bot.script.enums.Tab;
 import bot.script.util.Random;
 import bot.script.wrappers.Interface;
@@ -66,7 +66,7 @@ public class Walking extends Methods{
 	}
 	
 	public static boolean isRunOn(){
-		return Bot.getClient().getSettings()[173] == 1;
+		return Bot.get().getMainClass().getSettings()[173] == 1;
 	}
 	
 	/**
@@ -74,8 +74,8 @@ public class Walking extends Methods{
 	 * @return The tile of the flag in the minimap
 	 */
 	public static Tile getDestination(){
-		int x = Bot.getClient().getDestX() + Bot.getClient().getBaseX();
-		int y = Bot.getClient().getDestY() + Bot.getClient().getBaseY();
+		int x = Bot.get().getMainClass().getDestX() + Bot.get().getMainClass().getBaseX();
+		int y = Bot.get().getMainClass().getDestY() + Bot.get().getMainClass().getBaseY();
 		return new Tile(x, y);
 	}
 	
@@ -86,13 +86,13 @@ public class Walking extends Methods{
 	 */
 	
 	public static boolean readyForNextFlag(Tile destination){
-		Tile base = new Tile(Bot.getClient().getBaseX(), Bot.getClient().getBaseY());
+		Tile base = new Tile(Bot.get().getMainClass().getBaseX(), Bot.get().getMainClass().getBaseY());
 		if (getDestination().getX() == base.getX() && getDestination().getY() == base.getY()) return true;
 		return getDestination().distance() < 5 && Calculations.distanceBetween(getDestination(), destination) > 4;
 	}
 	
 	public boolean isTileWalkable(int tileX, int tileY, int plane){
-		CollisionMap[] info = Bot.getClient().getTileInfo();
+		CollisionMap[] info = Bot.get().getMainClass().getTileInfo();
 		int[][] data = info[plane].getTileData();
 		return (data[tileX][tileY]) == 0;
 	}

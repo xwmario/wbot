@@ -6,9 +6,9 @@ package bot.script.wrappers;
  *
  */
 public class NPC extends Entity{
-	bot.accessors.NPC accessor;
+	nl.wbot.bot.accessors.NPC accessor;
 	
-	public NPC(bot.accessors.NPC accessor) {
+	public NPC(nl.wbot.bot.accessors.NPC accessor) {
 		super(accessor);
 		this.accessor = accessor;
 	}

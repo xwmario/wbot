@@ -2,17 +2,18 @@ package bot.script.methods;
 
 import java.awt.event.KeyEvent;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
+
 import bot.script.util.Random;
 import bot.script.wrappers.Tile;
 
 public class Camera extends Methods{
 	public static int getAngle(){
-		return (int) (Bot.getClient().getXCameraCurve() / 5.69);
+		return (int) (Bot.get().getMainClass().getXCameraCurve() / 5.69);
 	}
 	
 	public static int getPitch() {
-		return (int) (((double) Bot.getClient().getYCameraCurve() / 390) * 100);
+		return (int) (((double) Bot.get().getMainClass().getYCameraCurve() / 390) * 100);
 	}
 	
 	public static void turnToTile(Tile tile) {

@@ -2,11 +2,12 @@ package bot.script;
 
 import java.awt.Graphics;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
+import nl.wbot.service.ScriptDefinition;
+
 import bot.script.methods.Game;
 import bot.script.methods.Methods;
 import bot.script.methods.Mouse;
-import bot.service.ScriptDefinition;
 
 public abstract class BotScript extends Methods implements Runnable{
 	private ScriptDefinition scriptDefinition;
@@ -64,13 +65,13 @@ public abstract class BotScript extends Methods implements Runnable{
 					if (stop)
 						break mainLoop;
 				}
-				if (!Game.inGame() && Bot.getClient().getUsername().length() > 1 && Bot.getClient().getPassword().length() > 1){
-					if (Bot.getClient().getLoginState() == 2){
+				if (!Game.inGame() &&Bot.get().getMainClass().getUsername().length() > 1 && Bot.get().getMainClass().getPassword().length() > 1){
+					if (Bot.get().getMainClass().getLoginState() == 2){
 						Mouse.move(305, 325);
 						Mouse.click(true);
 						for(int i = 0; i < 100 && Game.inGame(); i++) sleep(50);
 						sleep(Game.inGame() ? 3000 : 8000);
-					}else if (Bot.getClient().getLoginState() == 0){
+					}else if (Bot.get().getMainClass().getLoginState() == 0){
 						Mouse.move(458, 292);
 						Mouse.click(true);
 					}else{
@@ -83,7 +84,7 @@ public abstract class BotScript extends Methods implements Runnable{
 				}
 				
 				int wait = -1;
-				if (!(this instanceof Random))
+				/*if (!(this instanceof Random))
 					for(Random r : Bot.getInstance().getRandoms()){
 						if (r.isValid()){
 							log(r.getName() + "event started");
@@ -97,7 +98,7 @@ public abstract class BotScript extends Methods implements Runnable{
 							log(r.getName() + "event stopped");
 						}
 					}
-				Bot.getInstance().getAntiban().scriptLoop();
+				Bot.getInstance().getAntiban().scriptLoop();*/
 				
 				wait = loop();
 				if (wait < 0){
@@ -109,7 +110,7 @@ public abstract class BotScript extends Methods implements Runnable{
 			}
 		}
 		log.info(scriptDefinition.name + " stopped");
-		Bot.getInstance().scriptStopped();
+		//Bot.getInstance().scriptStopped();
 	}
 	
 }

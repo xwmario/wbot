@@ -2,16 +2,17 @@ package bot.script.methods;
 
 import java.util.ArrayList;
 
-import bot.Bot;
-import bot.accessors.Item;
-import bot.accessors.NodeList;
+import nl.wbot.bot.Bot;
+import nl.wbot.bot.accessors.Item;
+import nl.wbot.bot.accessors.NodeList;
+
 import bot.script.util.Filter;
 import bot.script.wrappers.GroundItem;
 
 public class GroundItems {
 	public static GroundItem[] getLoaded(){
 		ArrayList<GroundItem> gi = new ArrayList<GroundItem>();
-		for(NodeList[][] nl : Bot.getClient().getGroundArray()){
+		for(NodeList[][] nl : Bot.get().getMainClass().getGroundArray()){
 			for(int x = 0; x < nl.length; x++){
 				for(int y = 0; y < nl[x].length; y++){
 					NodeList nodeList = nl[x][y];

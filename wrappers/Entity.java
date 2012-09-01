@@ -2,7 +2,8 @@ package bot.script.wrappers;
 
 import java.awt.Point;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
+
 import bot.script.methods.Calculations;
 import bot.script.methods.Menu;
 import bot.script.methods.Methods;
@@ -14,16 +15,16 @@ import bot.script.util.Random;
  *
  */
 public class Entity extends Methods{
-	bot.accessors.Entity accessor;
+	nl.wbot.bot.accessors.Entity accessor;
 	
-	public Entity(bot.accessors.Entity accessor){
+	public Entity(nl.wbot.bot.accessors.Entity accessor){
 		this.accessor = accessor;
 	}
 	
 	public Tile getLocation(){
 		if (accessor == null) return new Tile(-1, -1);
-		int x = Bot.getClient().getBaseX() + (accessor.getX() >> 7);
-		int y = Bot.getClient().getBaseY() + (accessor.getY() >> 7);
+		int x = Bot.get().getMainClass().getBaseX() + (accessor.getX() >> 7);
+		int y = Bot.get().getMainClass().getBaseY() + (accessor.getY() >> 7);
 		return new Tile(x, y);
 	}
 	
@@ -75,7 +76,7 @@ public class Entity extends Methods{
 	}
 	
 	public boolean inCombat(){
-		return accessor.getLoopCycleStatus() > Bot.getClient().getLoopCycle();
+		return accessor.getLoopCycleStatus() > Bot.get().getMainClass().getLoopCycle();
 	}
 
 	public double distance(){
@@ -92,7 +93,7 @@ public class Entity extends Methods{
 	}
 	
 	public NPC getInteracting(){
-		return new NPC(Bot.getClient().getNpcs()[getInteractingEntity()]);
+		return new NPC(Bot.get().getMainClass().getNpcs()[getInteractingEntity()]);
 	}
 	
 	/**

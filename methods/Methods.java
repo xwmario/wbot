@@ -2,7 +2,8 @@ package bot.script.methods;
 
 import java.util.logging.Logger;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
+
 import bot.script.util.Random;
 
 /**

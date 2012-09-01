@@ -2,7 +2,8 @@ package bot.script.wrappers;
 
 import java.util.ArrayList;
 
-import bot.utils.Downloader;
+import nl.wbot.utils.Downloader;
+
 
 /**
  * 
@@ -10,7 +11,7 @@ import bot.utils.Downloader;
  *
  */
 public class Player extends Entity{
-	bot.accessors.Player accessor;
+	nl.wbot.bot.accessors.Player accessor;
 	private static ArrayList<String> mods = new ArrayList<String>();
 	
 	static{
@@ -26,7 +27,7 @@ public class Player extends Entity{
 		}).start();
 	}
 	
-	public Player(bot.accessors.Player accessor){
+	public Player(nl.wbot.bot.accessors.Player accessor){
 		super(accessor);
 		this.accessor = accessor;
 	}

@@ -2,24 +2,25 @@ package bot.script.wrappers;
 
 import java.awt.Point;
 
-import bot.Bot;
-import bot.accessors.ItemDef;
 import bot.script.methods.Calculations;
 import bot.script.methods.Menu;
 import bot.script.methods.Methods;
 import bot.script.methods.Mouse;
 import bot.script.util.Random;
 
+import nl.wbot.bot.Bot;
+import nl.wbot.bot.accessors.ItemDef;
+
 public class GroundItem {
-	bot.accessors.Item accessor;
+	nl.wbot.bot.accessors.Item accessor;
 	int x, y, realX, realY;
 	
-	public GroundItem(bot.accessors.Item item, int x, int y){
+	public GroundItem(nl.wbot.bot.accessors.Item item, int x, int y){
 		this.accessor = item;
 		this.realX = x;
 		this.realY = y;
-		this.x = x + Bot.getClient().getBaseX();
-		this.y = y + Bot.getClient().getBaseY();
+		this.x = x + Bot.get().getMainClass().getBaseX();
+		this.y = y + Bot.get().getMainClass().getBaseY();
 	}
 	
 	public int getId(){
@@ -49,7 +50,7 @@ public class GroundItem {
 	}
 	
 	public ItemDef getDef(){
-		return Bot.getClient().getItemDef(getId());
+		return Bot.get().getMainClass().getItemDef(getId());
 	}
 	
 	public boolean isValid(){

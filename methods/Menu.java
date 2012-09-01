@@ -3,11 +3,11 @@ package bot.script.methods;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
 
 public class Menu extends Methods{
 	public static boolean isOpen(){
-		return Bot.getClient().isMenuOpen();
+		return Bot.get().getMainClass().isMenuOpen();
 	}
 	
 	/**
@@ -15,8 +15,8 @@ public class Menu extends Methods{
 	 * @return a point from the menu location
 	 */
 	public static Point getPosition(){
-		int x = Bot.getClient().getMenuX();
-		int y = Bot.getClient().getMenuY();
+		int x = Bot.get().getMainClass().getMenuX();
+		int y = Bot.get().getMainClass().getMenuY();
 		if (Mouse.getX() > 546 && x < 100){
 			x += 546;
 			y += 201;
@@ -42,8 +42,8 @@ public class Menu extends Methods{
 	public static String[] getActions(){
 		ArrayList<String> actions = new ArrayList<String>();
 		
-		for (int i = Bot.getClient().getMenuActionRow()-1; i >= 0; i--){
-			String action = Bot.getClient().getCurrentActions()[i];
+		for (int i = Bot.get().getMainClass().getMenuActionRow()-1; i >= 0; i--){
+			String action = Bot.get().getMainClass().getCurrentActions()[i];
 			if (action.contains("@")){
 				action = action.substring(0, action.indexOf("@") - 1);
 			}

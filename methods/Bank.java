@@ -2,7 +2,8 @@ package bot.script.methods;
 
 import java.util.ArrayList;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
+
 import bot.script.wrappers.GameObject;
 import bot.script.wrappers.Interface;
 import bot.script.wrappers.Item;
@@ -13,7 +14,7 @@ public class Bank extends Methods{
 	public static final int[] BANK_OBJECTS = {2213};
 	
 	public static boolean isOpen(){
-		return Bot.getClient().getInventoryInterfaceId() == 5063;
+		return Bot.get().getMainClass().getInventoryInterfaceId() == 5063;
 	}
 	
 	public static boolean open(){

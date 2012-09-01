@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-import bot.Bot;
+import nl.wbot.bot.Bot;
 
 public class Mouse extends Methods{
 	private static byte dragLength = 0;
@@ -15,55 +15,55 @@ public class Mouse extends Methods{
 	public static final int reactionTime = 0;
 	
 	public static boolean isOnCanvas(final int x, final int y) {
-		return x > 0 && x < Bot.getApplet().getWidth() && y > 0 && y < Bot.getApplet().getHeight();
+		return x > 0 && x < Bot.get().getGameClient().getWidth() && y > 0 && y < Bot.get().getGameClient().getHeight();
 	}
 	
 	public static int getX(){
-		return Bot.getApplet().getMouseX();
+		return Bot.get().getGameClient().getMouseX();
 	}
 	
 	public static int getY(){
-		return Bot.getApplet().getMouseY();
+		return Bot.get().getGameClient().getMouseY();
 	}
 	
 	public static void click(boolean left) {
-		Bot.getApplet().pressed = true;
+		Bot.get().getGameClient().pressed = true;
 		pressMouse(getX(), getY(), left);
 		sleep(150);
-		Bot.getApplet().pressed = false;
+		Bot.get().getGameClient().pressed = false;
 		releaseMouse(getX(), getY(), left);
 	}
 	
 	public static void hop(final int x, final int y) {
-		final MouseEvent me = new MouseEvent(Bot.getApplet(), MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0, x, y, 0, false);
-		Bot.getApplet().sendEvent(me);
+		final MouseEvent me = new MouseEvent(Bot.get().getGameClient(), MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0, x, y, 0, false);
+		Bot.get().getGameClient().sendEvent(me);
 	}
 	
 	public static void move(int x, int y){
-		hop(x, y);
+		move(8, getX(), getY(), x, y, 0, 0);	
 	}
 	
 	public static void move(Point p){
-		hop(p.x, p.y);
+		move(p.x, p.y);
 	}
 	
 	private static void pressMouse(final int x, final int y, final boolean left) {
-		MouseEvent me = new MouseEvent(Bot.getApplet(), MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, x, y, 1, false, left ? MouseEvent.BUTTON1 : MouseEvent.BUTTON3);
-		Bot.getApplet().sendEvent(me);
+		MouseEvent me = new MouseEvent(Bot.get().getGameClient(), MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, x, y, 1, false, left ? MouseEvent.BUTTON1 : MouseEvent.BUTTON3);
+		Bot.get().getGameClient().sendEvent(me);
 	}
 	
 	private static void releaseMouse(final int x, final int y, final boolean leftClick) {
-		MouseEvent me = new MouseEvent(Bot.getApplet(), MouseEvent.MOUSE_RELEASED, System.currentTimeMillis(), 0, x, y, 1, false, leftClick ? MouseEvent.BUTTON1 : MouseEvent.BUTTON3);
-		Bot.getApplet().sendEvent(me);
+		MouseEvent me = new MouseEvent(Bot.get().getGameClient(), MouseEvent.MOUSE_RELEASED, System.currentTimeMillis(), 0, x, y, 1, false, leftClick ? MouseEvent.BUTTON1 : MouseEvent.BUTTON3);
+		Bot.get().getGameClient().sendEvent(me);
 
 		if ((dragLength & 0xFF) <= 3) {
-			me = new MouseEvent(Bot.getApplet(), MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, x, y, 1, false, leftClick ? MouseEvent.BUTTON1 : MouseEvent.BUTTON3);
-			Bot.getApplet().sendEvent(me);
+			me = new MouseEvent(Bot.get().getGameClient(), MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, x, y, 1, false, leftClick ? MouseEvent.BUTTON1 : MouseEvent.BUTTON3);
+			Bot.get().getGameClient().sendEvent(me);
 		}
 		dragLength = 0;
 	}
 	
-	public void move(final int speed, final int x1, final int y1, final int x2, final int y2, int randX, int randY) {
+	public static void move(final int speed, final int x1, final int y1, final int x2, final int y2, int randX, int randY) {
 		if ((x2 == -1) && (y2 == -1))
 			// MouseHandler.log
 			// .warning("Non-fatal error. Please post log on forums. ("

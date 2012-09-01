@@ -2,8 +2,9 @@ package bot.script.wrappers;
 
 import java.awt.Point;
 
-import bot.Bot;
-import bot.accessors.ObjectDef;
+import nl.wbot.bot.Bot;
+import nl.wbot.bot.accessors.ObjectDef;
+
 import bot.script.methods.Calculations;
 import bot.script.methods.Menu;
 import bot.script.methods.Methods;
@@ -16,11 +17,11 @@ import bot.script.util.Random;
  *
  */
 public class GameObject extends Methods{
-	bot.accessors.GameObject accessor;
+	nl.wbot.bot.accessors.GameObject accessor;
 	Tile location;
 	ObjectDef def;
 	
-	public GameObject(bot.accessors.GameObject accessor, int x, int y){
+	public GameObject(nl.wbot.bot.accessors.GameObject accessor, int x, int y){
 		this.accessor = accessor;
 		this.location = new Tile(x, y);
 	}
@@ -45,7 +46,7 @@ public class GameObject extends Methods{
 		if (def != null)
 			return def;
 		if (getId() > 0 && getId() <= 14973){
-			def = Bot.getClient().getObjectDef(getId());
+			def = Bot.get().getMainClass().getObjectDef(getId());
 			return def;
 		}
 		return null;
