@@ -1,18 +1,19 @@
 package bot.script;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
-import nl.wbot.bot.Bot;
 import nl.wbot.service.ScriptDefinition;
 
-import bot.script.methods.Game;
+import bot.script.listeners.ScriptListener;
 import bot.script.methods.Methods;
-import bot.script.methods.Mouse;
 
 public abstract class BotScript extends Methods implements Runnable{
+	private ArrayList<ScriptListener> listeners = new ArrayList<ScriptListener>();
 	private ScriptDefinition scriptDefinition;
 	private Thread thread = new Thread(this);
 	private boolean pause = false;
+	private boolean isPaused = false;
 	public boolean stop = false;
 	
 	public Thread getThread(){
@@ -41,6 +42,10 @@ public abstract class BotScript extends Methods implements Runnable{
 		return scriptDefinition;
 	}
 	
+	public boolean isPaused(){
+		return isPaused;
+	}
+	
 	public void pause(){
 		pause = !pause;
 	}
@@ -49,58 +54,40 @@ public abstract class BotScript extends Methods implements Runnable{
 		stop = true;
 	}
 	
+	public void addScriptListener(ScriptListener l){
+		listeners.add(l);
+	}
+	
 	@Override
 	public void run(){
+		for(ScriptListener listener : listeners)
+			listener.scriptStarted(this);
 		try{
 			stop = !onStart();
 		}catch(Exception e){
 			stop = true;
 			e.printStackTrace();
 		}
+		log.info(scriptDefinition.name + " started");
 		mainLoop:
 		while(!stop){
 			try{
+				if (pause){
+					for(ScriptListener listener : listeners)
+						listener.scriptPaused(this);
+				}
 				while(pause){
+					isPaused = true;
 					sleep(75);
 					if (stop)
 						break mainLoop;
 				}
-				if (!Game.inGame() &&Bot.get().getMainClass().getUsername().length() > 1 && Bot.get().getMainClass().getPassword().length() > 1){
-					if (Bot.get().getMainClass().getLoginState() == 2){
-						Mouse.move(305, 325);
-						Mouse.click(true);
-						for(int i = 0; i < 100 && Game.inGame(); i++) sleep(50);
-						sleep(Game.inGame() ? 3000 : 8000);
-					}else if (Bot.get().getMainClass().getLoginState() == 0){
-						Mouse.move(458, 292);
-						Mouse.click(true);
-					}else{
-						break;
-					}
-					continue;
+				if (isPaused){
+					for(ScriptListener listener : listeners)
+						listener.scriptResumed(this);
+					isPaused = false;
 				}
-				if (!Game.inGame()){
-					break;
-				}
-				
-				int wait = -1;
-				/*if (!(this instanceof Random))
-					for(Random r : Bot.getInstance().getRandoms()){
-						if (r.isValid()){
-							log(r.getName() + "event started");
-							r.onStart();
-							while(r.isValid() && !stop && !r.stop){
-								wait = r.loop();
-								if (wait < 0) break;
-								sleep(wait);
-							}
-							r.onFinish();
-							log(r.getName() + "event stopped");
-						}
-					}
-				Bot.getInstance().getAntiban().scriptLoop();*/
-				
-				wait = loop();
+				int wait = loop();
 				if (wait < 0){
 					break;
 				}
@@ -110,7 +97,9 @@ public abstract class BotScript extends Methods implements Runnable{
 			}
 		}
 		log.info(scriptDefinition.name + " stopped");
-		//Bot.getInstance().scriptStopped();
+		onFinish();
+		for(ScriptListener listener : listeners)
+			listener.scriptStopped(this);
 	}
 	
 }

@@ -20,7 +20,6 @@ public class Methods {
 		try {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 	

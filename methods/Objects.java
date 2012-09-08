@@ -55,8 +55,15 @@ public class Objects{
 					GameObject object = null;
 					if (g.getObject1() != null) object = new GameObject(g.getObject1(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
 					if (g.getObject2() != null) object = new GameObject(g.getObject2(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
-					if (g.getObject3() != null) object = new GameObject(g.getObject3(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
+					//if (g.getObject3() != null) object = new GameObject(g.getObject3(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
 					//if (g.getObject4() != null) objects.add(new GameObject(g.getObject4(), x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY()));
+					/*if (g.getObject5() != null && g.getObject5().length > 0 && g.getObject5()[0] != null){
+						nl.wbot.bot.accessors.GameObject o = g.getObject5()[0];
+						if ((o.getId() & 1) == 0)
+							continue;
+						
+						object = new GameObject(o, x + Bot.get().getMainClass().getBaseX(), y + Bot.get().getMainClass().getBaseY());
+					}*/
 					if (g.getObject5() != null && g.getObject5().length > 0){
 						for (nl.wbot.bot.accessors.GameObject object5 : g.getObject5()){
 							if (object5 != null){
