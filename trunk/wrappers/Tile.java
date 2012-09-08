@@ -5,7 +5,11 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 
+import nl.wbot.bot.Bot;
+import nl.wbot.bot.accessors.CollisionMap;
+
 import bot.script.methods.Calculations;
+import bot.script.methods.Game;
 import bot.script.methods.Menu;
 import bot.script.methods.Methods;
 import bot.script.methods.Mouse;
@@ -35,6 +39,11 @@ public class Tile {
 		return Calculations.tileToScreen(x, y, 1);
 	}
 	
+	public boolean isVisible(){
+		Point p = toScreen();
+		return p.x > 0 && p.y > 0 && p.x < 516 && p.y < 340;
+	}
+	
 	public boolean interact(String action){
 		Mouse.move(toScreen());
 		return Menu.interact(action);
@@ -58,6 +67,18 @@ public class Tile {
 
 	public boolean onMinimap(){
 		return Calculations.distanceTo(this) < 17;
+	}
+	
+	public boolean isWalkable(){
+		CollisionMap[] info = Bot.get().getMainClass().getTileInfo();
+		if (info == null || info[Game.getPlane()] == null)
+			return false;
+		int[][] data = info[Game.getPlane()].getTileData();
+		try{
+			return (data[getX()-Game.getRegion().getX()][getY()-Game.getRegion().getY()]) <= 128;
+		}catch(ArrayIndexOutOfBoundsException e){
+			return false;
+		}
 	}
 	
 	public String toString(){

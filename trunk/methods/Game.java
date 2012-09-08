@@ -1,7 +1,9 @@
 package bot.script.methods;
 
+import nl.wbot.Account;
 import nl.wbot.bot.Bot;
 import bot.script.enums.Tab;
+import bot.script.wrappers.Tile;
 
 /**
  * 
@@ -40,6 +42,26 @@ public class Game extends Methods{
 		Interfaces.getInterface(2449, 2458).click();
 	}
 	
+	public static int[][] getTileData(){
+		return Bot.get().getMainClass().getTileInfo()[getPlane()].getTileData();
+	}
+	
+	public static Tile getRegion(){
+		return new Tile(Bot.get().getMainClass().getBaseX(), Bot.get().getMainClass().getBaseY());
+	}
+	
+	public static int getLoginState(){
+		return Bot.get().getMainClass().getLoginState();
+	}
+	
+	public static String getUsername(){
+		return Bot.get().getMainClass().getUsername();
+	}
+	
+	public static String getPassword(){
+		return Bot.get().getMainClass().getPassword();
+	}
+	
 	public static int getEnergy(){
 		return Bot.get().getMainClass().getEnergy();
 	}
@@ -54,5 +76,9 @@ public class Game extends Methods{
 	
 	public int[] getSettings(){
 		return Bot.get().getMainClass().getSettings();
+	}
+
+	public static Account getAccount(){
+		return Bot.get().getAccount();
 	}
 }

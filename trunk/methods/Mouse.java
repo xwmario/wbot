@@ -26,6 +26,17 @@ public class Mouse extends Methods{
 		return Bot.get().getGameClient().getMouseY();
 	}
 	
+	public static void click(Point p){
+		click(p.x, p.y);
+	}
+	
+	public static void click(int x, int y){
+		move(x, y);
+		sleep(100);
+		click(true);
+		sleep(100);
+	}
+	
 	public static void click(boolean left) {
 		Bot.get().getGameClient().pressed = true;
 		pressMouse(getX(), getY(), left);
