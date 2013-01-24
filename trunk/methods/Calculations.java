@@ -11,13 +11,13 @@ import bot.script.wrappers.Tile;
 public class Calculations{
 	Random random = new Random();
 	
-	private static final int[] CURVESIN = new int[2048];
-	private static final int[] CURVECOS = new int[2048];
+	public static final int[] SIN_TABLE = new int[2048];
+	public static final int[] COS_TABLE = new int[2048];
 
 	static {
 		for (int i = 0; i < 2048; i++) {
-			CURVESIN[i] = (int) (65536.0 * Math.sin(i * 0.0030679615));
-			CURVECOS[i] = (int) (65536.0 * Math.cos(i * 0.0030679615));
+			SIN_TABLE[i] = (int) (65536.0 * Math.sin(i * 0.0030679615));
+			COS_TABLE[i] = (int) (65536.0 * Math.cos(i * 0.0030679615));
 		}
 	}
 	
@@ -73,11 +73,11 @@ public class Calculations{
 		int tileCalculation = tileHeight((int) X, (int) Y) - height;
 		X -= Bot.get().getMainClass().getXCameraPos();
 		tileCalculation -= Bot.get().getMainClass().getZCameraPos();
-		int curvexsin = CURVESIN[Bot.get().getMainClass().getXCameraCurve()];
-		int curvexcos = CURVECOS[Bot.get().getMainClass().getXCameraCurve()];
+		int curvexsin = SIN_TABLE[Bot.get().getMainClass().getXCameraCurve()];
+		int curvexcos = COS_TABLE[Bot.get().getMainClass().getXCameraCurve()];
 		Y -= Bot.get().getMainClass().getYCameraPos();
-		int curveysin = CURVESIN[Bot.get().getMainClass().getYCameraCurve()];
-		int curveycos = CURVECOS[Bot.get().getMainClass().getYCameraCurve()];
+		int curveysin = SIN_TABLE[Bot.get().getMainClass().getYCameraCurve()];
+		int curveycos = COS_TABLE[Bot.get().getMainClass().getYCameraCurve()];
 		int calculation = curvexsin * (int) Y + ((int) X * curvexcos) >> 16;
 		Y = -(curvexsin * (int) X) + (int) Y * curvexcos >> 16;
 		X = calculation;
@@ -100,8 +100,8 @@ public class Calculations{
 	    if (j > 6400)
 	        return new Point(-1, -1);
 	 
-	    int sin = Calculations.CURVESIN[angle] * 256 / (Bot.get().getMainClass().getMinimapInt3() + 256);
-	    int cos = Calculations.CURVECOS[angle] * 256 / (Bot.get().getMainClass().getMinimapInt3() + 256);
+	    int sin = Calculations.SIN_TABLE[angle] * 256 / (Bot.get().getMainClass().getMinimapInt3() + 256);
+	    int cos = Calculations.COS_TABLE[angle] * 256 / (Bot.get().getMainClass().getMinimapInt3() + 256);
 	 
 	    int x = regionY * sin + regionX * cos >> 16;
 	    int y = regionY * cos - regionX * sin >> 16;

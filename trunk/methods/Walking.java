@@ -1,7 +1,9 @@
 package bot.script.methods;
 
+import java.util.concurrent.TimeoutException;
+
+import walker.Walker;
 import nl.wbot.bot.Bot;
-import nl.wbot.bot.accessors.CollisionMap;
 import bot.script.enums.Tab;
 import bot.script.util.Random;
 import bot.script.wrappers.Interface;
@@ -91,9 +93,43 @@ public class Walking extends Methods{
 		return getDestination().distance() < 5 && Calculations.distanceBetween(getDestination(), destination) > 4;
 	}
 	
-	public boolean isTileWalkable(int tileX, int tileY, int plane){
-		CollisionMap[] info = Bot.get().getMainClass().getTileInfo();
-		int[][] data = info[plane].getTileData();
-		return (data[tileX][tileY]) == 0;
+	/**
+	 * Find the shortest path from the characters current location and the given location
+	 * @param destination the path`s destination. This must be a walkable tile.
+	 * @return the path
+	 * @throws TimeoutException Method will be aborted if the pathfinder takes longer then 60 seconds
+	 */
+	public static Path findPath(Tile destination) throws TimeoutException{
+		if (Players.getLocal() == null)
+			return null;
+		return findPath(Players.getLocal().getLocation(), destination);
+	}
+	
+	/**
+	 * Find the shortest path between 2 locations.
+	 * @param a the start location
+	 * @param b the destination
+	 * @return the path
+	 * @throws TimeoutException Method will be aborted if the pathfinder takes longer then 60 seconds
+	 */
+	public static Path findPath(Tile a, Tile b) throws TimeoutException{
+		return findPath(a, b, 60000);
+	}
+	
+	/**
+	 * IN DEVELOPMENT Find the shortest path between 2 locations.
+	 * @param a the start location
+	 * @param b the destination
+	 * @param timeout maximum amount of time in miliseconds to find the path 
+	 * @return the path
+	 * @throws TimeoutException Method will be aborted if the pathfinder takes longer then the given timeout miliseconds
+	 */
+	public static Path findPath(Tile a, Tile b, int timeout) throws TimeoutException{
+		/*Tile[] tiles = new Tile[0];
+		tiles = Walker.findPath(a, b, timeout);
+		Path path = new Path(tiles);
+		path.traverse();
+		return path;*/
+		return null;
 	}
 }

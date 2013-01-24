@@ -96,6 +96,10 @@ public class Entity extends Methods{
 		return new NPC(Bot.get().getMainClass().getNpcs()[getInteractingEntity()]);
 	}
 	
+	public int getOrientation(){
+		return accessor.getOrientation();
+	}
+	
 	/**
 	 * Only works if the entity is in combat.
 	 * @return the enitities health in percent (0 = dead)

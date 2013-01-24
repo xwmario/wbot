@@ -1,7 +1,7 @@
 package bot.script.events;
 
 public class MessageEvent{
-	private static final long serialVersionUID = -2029419489540924081L;
+	public static final long serialVersionUID = -2029419489540924081L;
 	
 	private String sender;
 	private String message;

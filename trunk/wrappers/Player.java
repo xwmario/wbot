@@ -11,8 +11,9 @@ import nl.wbot.utils.Downloader;
  *
  */
 public class Player extends Entity{
-	nl.wbot.bot.accessors.Player accessor;
 	private static ArrayList<String> mods = new ArrayList<String>();
+	
+	nl.wbot.bot.accessors.Player accessor;
 	
 	static{
 		new Thread(new Runnable() {
@@ -41,7 +42,13 @@ public class Player extends Entity{
 	}
 
 	public int getEquipment(int slotIndex){
-		return accessor.getEquipment()[slotIndex];
+		return accessor.getEquipment()[slotIndex] - 0x200;
+	}
+	
+	public Model getModel(){
+		if (accessor.getModel() == null)
+			return null;
+		return new Model(accessor.getModel(), getRealX(), getRealY(), this);
 	}
 	
 	public boolean isMod(){

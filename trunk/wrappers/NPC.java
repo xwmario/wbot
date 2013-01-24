@@ -21,4 +21,9 @@ public class NPC extends Entity{
 		if (getDef() == null) return -1;
 		return (int) getDef().getType();
 	}
+	
+	public Model getModel(){
+		
+		return null;
+	}
 }

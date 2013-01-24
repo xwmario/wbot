@@ -6,6 +6,7 @@ import nl.wbot.bot.Bot;
 import nl.wbot.bot.accessors.ObjectDef;
 
 import bot.script.methods.Calculations;
+import bot.script.methods.Game;
 import bot.script.methods.Menu;
 import bot.script.methods.Methods;
 import bot.script.methods.Mouse;
@@ -21,9 +22,14 @@ public class GameObject extends Methods{
 	Tile location;
 	ObjectDef def;
 	
-	public GameObject(nl.wbot.bot.accessors.GameObject accessor, int x, int y){
+	int x;
+	int y;
+	
+	public GameObject(nl.wbot.bot.accessors.GameObject accessor){
 		this.accessor = accessor;
-		this.location = new Tile(x, y);
+		this.x = accessor.getId() & 0x7F;
+		this.y = accessor.getId() >> 7 & 0x7F;
+		this.location = new Tile(x + Game.getRegion().getX(), y + Game.getRegion().getY());
 	}
 	
 	public int getId(){
@@ -35,7 +41,8 @@ public class GameObject extends Methods{
 	}
 	
 	public Point getPoint(){
-		return Calculations.worldToScreen(accessor.getX(), accessor.getY(), 0);
+		Point p = Calculations.worldToScreen((x + 0.5D) * 128.0D, (y + 0.5D) * 128.0D, Game.getPlane());
+		return p;
 	}
 	
 	/**

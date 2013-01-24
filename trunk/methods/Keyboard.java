@@ -18,7 +18,7 @@ public class Keyboard extends Methods{
 		Bot.get().getGameClient()._keyPressed(ke);
 	}
 	
-	private static void sendKey(final char ch, final int delay) {
+	public static void sendKey(final char ch, final int delay) {
 		boolean shift = false;
 		int code = ch;
 		if ((ch >= 'a') && (ch <= 'z')) {

@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.Polygon;
 
 import nl.wbot.bot.Bot;
-import nl.wbot.bot.accessors.CollisionMap;
 
 import bot.script.methods.Calculations;
 import bot.script.methods.Game;
@@ -20,7 +19,11 @@ import bot.script.methods.Mouse;
  *
  */
 public class Tile {
-	int x, y;
+	private static int[][] data;
+	private static Tile region;
+	
+	private int x;
+	private int y;
 	
 	public Tile(int x, int y){
 		this.x = x;
@@ -70,15 +73,19 @@ public class Tile {
 	}
 	
 	public boolean isWalkable(){
-		CollisionMap[] info = Bot.get().getMainClass().getTileInfo();
-		if (info == null || info[Game.getPlane()] == null)
+		update();
+		if (data == null || data.length != 104)
 			return false;
-		int[][] data = info[Game.getPlane()].getTileData();
-		try{
-			return (data[getX()-Game.getRegion().getX()][getY()-Game.getRegion().getY()]) <= 128;
-		}catch(ArrayIndexOutOfBoundsException e){
-			return false;
-		}
+		int value = data[getX()-region.getX()][getY()-region.getY()];
+		return (value & 0x1280180) == 0 ^ (value & 0x1280180) == 128;
+	}
+	
+	public int getValue(){
+		update();
+		if (data.length != 104)
+			return -1;
+		int value = data[getX()-region.getX()][getY()-region.getY()];
+		return value;
 	}
 	
 	public String toString(){
@@ -107,5 +114,20 @@ public class Tile {
 			g.fillPolygon(getPolygon());
 		else
 			g.drawPolygon(getPolygon());
+	}
+	
+	public boolean equals(Tile t){
+		if (t == null)
+			return false;
+		return t.getX() == x && t.getY() == y;
+	}
+	
+	private static void update(){
+		if (Bot.get().getMainClass() == null || Bot.get().getMainClass().getTileInfo() == null || Game.getRegion() == null)
+			return;
+		if (data == null || region == null || !region.equals(Game.getRegion())){
+			data = Bot.get().getMainClass().getTileInfo()[Game.getPlane()].getTileData();
+			region = Game.getRegion();
+		}
 	}
 }
