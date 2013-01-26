@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import nl.wbot.utils.Downloader;
 
-
 /**
  * 
  * @author Webjoch
@@ -42,7 +41,7 @@ public class Player extends Entity{
 	}
 
 	public int getEquipment(int slotIndex){
-		return accessor.getEquipment()[slotIndex] - 0x200;
+		return accessor.getEquipment()[slotIndex] - 0x200 + 1;
 	}
 	
 	public Model getModel(){

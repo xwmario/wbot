@@ -19,7 +19,18 @@ public class Objects{
 	 * @param y
 	 * @return
 	 */
+	
 	public static GameObject getObject(int x, int y){
+		return getObjectInRegion(x - Game.getRegion().getX(), y - Game.getRegion().getY());
+	}
+	
+	/**
+	 * Gets the object in a region
+	 * @param x 
+	 * @param y
+	 * @return
+	 */
+	public static GameObject getObjectInRegion(int x, int y){
 		Ground ground = Bot.get().getMainClass().getWorldController().getGround()[Game.getPlane()][x][y];
 		if (ground == null)
 			return null;
@@ -58,12 +69,21 @@ public class Objects{
 				
 			for(int x = 0; x < 104; x++){
 				for(int y = 0; y < 104; y++){
-					GameObject obj = getObject(x, y);
+					GameObject obj = getObjectInRegion(x, y);
 					if (obj != null)
 						objects.add(obj);
 				}
 			}
 		
+		return objects.toArray(new GameObject[objects.size()]);
+	}
+	
+	public static GameObject[] getLoaded(Filter<GameObject> filter) {
+		ArrayList<GameObject> objects = new ArrayList<GameObject>();
+		for(GameObject o : getLoaded()){
+			if (filter.accept(o))
+				objects.add(o);
+		}
 		return objects.toArray(new GameObject[objects.size()]);
 	}
 	

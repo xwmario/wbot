@@ -28,6 +28,8 @@ public class Calculations{
 	}
 
 	public static double distanceTo(Tile tile){
+		if (Players.getLocal() == null)
+			return 0;
 		return distanceBetween(Players.getLocal().getLocation(), tile);
 	}
 	

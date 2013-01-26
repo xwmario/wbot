@@ -13,7 +13,7 @@ public class Login extends Random{
 	
 	@Override
 	public boolean isValid(){
-		return !Game.inGame() && Bot.get().getAccount() != null;
+		return !Game.inGame() && Bot.get().getScriptHandler().getAccount() != null;
 	}
 
 	@Override
@@ -34,7 +34,6 @@ public class Login extends Random{
 		while(Interfaces.getParentInterfaces().length < 300){
 			sleep(100);
 		}
-		System.out.println(Game.getLoginState());
 		switch(Game.getLoginState()){
 		case 0:
 			Mouse.click(460, 290);

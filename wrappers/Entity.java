@@ -64,7 +64,7 @@ public class Entity extends Methods{
 	public boolean interact(String action){
 		for (int i = 1; i < 15; i++){
 			Point p = getPoint();
-			Mouse.move(p.x + Random.nextInt(i, i*2) - i*2, p.y + Random.nextInt(i, i*2) - i*2);
+			Mouse.move(p.x + Random.nextInt(i, i*2) - i, p.y + Random.nextInt(i, i*2) - i);
 			sleep(100);
 			if (Menu.contains(action)) break;
 		}

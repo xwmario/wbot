@@ -21,6 +21,14 @@ public class Skills{
 		return getXp(skill.getIndex());
 	}
 	
+	public static int getTotalXp(){
+		int xp = 0;
+		for (int i = 0; i < 21; i++){
+			xp += getXp(i);
+		}
+		return xp;
+	}
+	
 	public static int getLevel(Skill skill){
 		int xp = getXp(skill);
 		for(int i = 1; i < 100; i++){

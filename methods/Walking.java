@@ -2,7 +2,6 @@ package bot.script.methods;
 
 import java.util.concurrent.TimeoutException;
 
-import walker.Walker;
 import nl.wbot.bot.Bot;
 import bot.script.enums.Tab;
 import bot.script.util.Random;
@@ -26,15 +25,7 @@ public class Walking extends Methods{
 		dest.clickMinimap();
 	}
 	
-	/**
-	 * Walks the given path. Should be used in a loop.
-	 * @param path
-	 */
-	public static void walkPath(Path path){
-		if (path.isValid())
-			walkTo(path.getNext());
-	}
-	
+
 	/**
 	 * Walks to the given tile using the minimap with given randomness.
 	 *
@@ -47,11 +38,26 @@ public class Walking extends Methods{
 		walkTo(tile);
 	}
 	
+	/**
+	 * Walks the given path. Should be used in a loop.
+	 * @param path
+	 */
+	public static void walkPath(Path path){
+		if (path.isValid())
+			walkTo(path.getNext());
+	}
+	
 	public static Tile getClosestTileOnMap(Tile tile) {
 		if (!tile.onMinimap()){
 			Tile loc = Players.getLocal().getLocation();
 			Tile walk = new Tile((loc.getX() + tile.getX()) / 2, (loc.getY() + tile.getY()) / 2);
 			return walk.onMinimap() ? walk : getClosestTileOnMap(walk);
+		}
+		for (int i = 1; i < 50; i++){
+			if (!tile.isWalkable()){
+				int factor = i / 10 + 1;
+				tile = new Tile(tile.getX() + Random.nextInt(-factor, factor), tile.getY() + Random.nextInt(-factor, factor));
+			}
 		}
 		return tile;
 	}
@@ -90,7 +96,7 @@ public class Walking extends Methods{
 	public static boolean readyForNextFlag(Tile destination){
 		Tile base = new Tile(Bot.get().getMainClass().getBaseX(), Bot.get().getMainClass().getBaseY());
 		if (getDestination().getX() == base.getX() && getDestination().getY() == base.getY()) return true;
-		return getDestination().distance() < 5 && Calculations.distanceBetween(getDestination(), destination) > 4;
+		return getDestination().distance() < 5;
 	}
 	
 	/**

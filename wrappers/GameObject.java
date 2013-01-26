@@ -69,10 +69,10 @@ public class GameObject extends Methods{
 	}
 	
 	public boolean interact(String action){
-		for (int i = 1; i < 15; i++){
+		for (int i = 1; i < 20; i++){
 			Point p = getPoint();
-			Mouse.move(p.x + Random.nextInt(i, i*2) - i*2, p.y + Random.nextInt(i, i*2) - i*2);
-			sleep(100);
+			Mouse.move(p.x + Random.nextInt(i, i*2) - i, p.y + Random.nextInt(i, i*2) - i);
+			sleep(80);
 			if (Menu.contains(action)) break;
 		}
 		return Menu.interact(action);
