@@ -79,6 +79,6 @@ public class Game extends Methods{
 	}
 
 	public static Account getAccount(){
-		return Bot.get().getAccount();
+		return Bot.get().getScriptHandler().getAccount();
 	}
 }
