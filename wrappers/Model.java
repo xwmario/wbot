@@ -5,6 +5,7 @@ import java.awt.Polygon;
 import java.util.LinkedList;
 
 import bot.script.methods.Calculations;
+import bot.script.util.Random;
 
 /**
  * 
@@ -15,7 +16,8 @@ public class Model {
 	nl.wbot.bot.accessors.Model accessor;
 	Entity entity;
 	
-	int localX, localY;
+	int x;
+	int y;
 	
 	protected int[] xPoints;
 	protected int[] yPoints;
@@ -36,11 +38,11 @@ public class Model {
 		}
 	}
 	
-	public Model(nl.wbot.bot.accessors.Model accessor, int localX, int localY, Entity entity){
+	public Model(nl.wbot.bot.accessors.Model accessor, int x, int y){
 		this.accessor = accessor;
-		this.entity = entity;
-		this.localX = localX;
-		this.localY = localY;
+		
+		this.x = x;
+		this.y = y;
 		
 		xPoints = accessor.getXPoints();
 		yPoints = accessor.getYPoints();
@@ -48,29 +50,33 @@ public class Model {
 		indices1 = accessor.getIndices1();
 		indices2 = accessor.getIndices2();
 		indices3 = accessor.getIndices3();
+		
 	}
 	
-	public Polygon[] getTriangles() {
-		int theta = entity.getOrientation() & 0x3fff;
-		int sin = SIN_TABLE[theta];
-		int cos = COS_TABLE[theta];
-		for (int i = 0; i < xPoints.length; ++i) {
-			xPoints[i] = xPoints[i] * cos + zPoints[i] * sin >> 15;
-			zPoints[i] = zPoints[i] * cos - xPoints[i] * sin >> 15;
-		}
-		
+	public Polygon[] getTriangles() {		
 		LinkedList<Polygon> polygons = new LinkedList<Polygon>();
-		int len = indices1.length;
-		int height = 0;
+				
+		int len = indices1.length;		
 		for (int i = 0; i < len; ++i) {
-			Point one = Calculations.worldToScreen(localX + xPoints[indices1[i]], localY + zPoints[indices1[i]], height + yPoints[indices1[i]]);
-			Point two = Calculations.worldToScreen(localX + xPoints[indices2[i]], localY + zPoints[indices2[i]], height + yPoints[indices2[i]]);
-			Point three = Calculations.worldToScreen(localX + xPoints[indices3[i]], localY + zPoints[indices3[i]], height + yPoints[indices3[i]]);
+			Point p1 = Calculations.worldToScreen(x + xPoints[indices1[i]], y + zPoints[indices1[i]],  - yPoints[indices1[i]]);
+			Point p2 = Calculations.worldToScreen(x + xPoints[indices2[i]], y + zPoints[indices2[i]],  - yPoints[indices2[i]]);
+			Point p3 = Calculations.worldToScreen(x + xPoints[indices3[i]], y + zPoints[indices3[i]],  - yPoints[indices3[i]]);
 
-			if (one.x >= 0 && two.x >= 0 && three.x >= 0) {
-				polygons.add(new Polygon(new int[]{one.x, two.x, three.x}, new int[]{one.y, two.y, three.y}, 3));
+			if (p1.x >= 0 && p2.x >= 0 && p2.x >= 0) {
+				polygons.add(new Polygon(new int[]{p1.x, p2.x, p3.x}, new int[]{p1.y, p2.y, p3.y}, 3));
 			}
 		}
 		return polygons.toArray(new Polygon[polygons.size()]);
+	}
+	
+	public Point getRandomPoint(){
+		Polygon[] triangles = getTriangles();
+		for(int i = 0; i < 100; i++){
+			Polygon p = triangles[Random.nextInt(0, triangles.length)];
+			Point point = new Point(p.xpoints[Random.nextInt(0, p.xpoints.length)], p.ypoints[Random.nextInt(0, p.ypoints.length)]);
+			if (Calculations.onScreen(point))
+				return point;
+		}
+		return new Point(-1, -1);
 	}
 }

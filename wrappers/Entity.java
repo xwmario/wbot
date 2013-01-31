@@ -83,18 +83,28 @@ public class Entity extends Methods{
 		return Calculations.distanceTo(getLocation());
 	}
 	
-	@Deprecated
-	public double dinstance(){
-		return distance();
-	}
-	
-	public int getInteractingEntity(){
+	public int getInteractingIndex(){
 		return accessor.getInteracting();
 	}
 	
+	@Deprecated
 	public NPC getInteracting(){
-		return new NPC(Bot.get().getMainClass().getNpcs()[getInteractingEntity()]);
+		return new NPC(Bot.get().getMainClass().getNpcs()[getInteractingIndex()]);
 	}
+	
+	public Entity getInteractingEntity(){
+		int index = getInteractingIndex();
+		if(index < 32768){
+			return new NPC(Bot.get().getMainClass().getNpcs()[index]);
+		}else{
+			index -= 32768;
+			return new Player(Bot.get().getMainClass().getPlayers()[index]);
+		}
+	}
+	
+	/*public Entiry getInteractingEntity(){
+		
+	}*/
 	
 	public int getOrientation(){
 		return accessor.getOrientation();

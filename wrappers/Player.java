@@ -45,9 +45,10 @@ public class Player extends Entity{
 	}
 	
 	public Model getModel(){
-		if (accessor.getModel() == null)
+		/*if (accessor.getModel() == null)
 			return null;
-		return new Model(accessor.getModel(), getRealX(), getRealY(), this);
+		return new Model(accessor.getModel(), getRealX(), getRealY(), this);*/
+		return null;
 	}
 	
 	public boolean isMod(){

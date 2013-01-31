@@ -22,12 +22,12 @@ public class Tile {
 	private static int[][] data;
 	private static Tile region;
 	
-	private int x;
-	private int y;
+	protected short x;
+	protected short y;
 	
 	public Tile(int x, int y){
-		this.x = x;
-		this.y = y;
+		this.x = (short) x;
+		this.y = (short) y;
 	}
 	
 	public int getX(){
@@ -70,6 +70,12 @@ public class Tile {
 
 	public boolean onMinimap(){
 		return Calculations.distanceTo(this) < 17;
+	}
+	
+	public boolean inRegion(){
+		int x = getX()-Game.getRegion().getX();
+		int y = getY()-Game.getRegion().getY();
+		return x > 0 && x < 105 && y > 0 && y < 105;
 	}
 	
 	public boolean isWalkable(){

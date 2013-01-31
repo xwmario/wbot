@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import nl.wbot.bot.Bot;
 import nl.wbot.bot.accessors.Ground;
 
+import bot.script.enums.ObjectType;
 import bot.script.util.Filter;
 import bot.script.wrappers.GameObject;
 /**
@@ -31,31 +32,33 @@ public class Objects{
 	 * @return
 	 */
 	public static GameObject getObjectInRegion(int x, int y){
+		if (x < 0 || x > 105 || y < 0 || y > 105)
+			return null;
 		Ground ground = Bot.get().getMainClass().getWorldController().getGround()[Game.getPlane()][x][y];
 		if (ground == null)
 			return null;
 		nl.wbot.bot.accessors.GameObject obj1 = ground.getObject1();
 		nl.wbot.bot.accessors.GameObject obj2 = ground.getObject2();
 		nl.wbot.bot.accessors.GameObject obj3 = ground.getObject3();
-		nl.wbot.bot.accessors.GameObject obj4 = ground.getObject4();
+		//nl.wbot.bot.accessors.GameObject obj4 = ground.getObject4();
 		nl.wbot.bot.accessors.GameObject[] obj5 = ground.getObject5();
 
-		if (obj4 != null)
-			return new GameObject(obj4);
+		/*if (obj4 != null)
+			return new GameObject(obj4, ObjectType.GROUND_OBJECT);*/
 		
 		for(nl.wbot.bot.accessors.GameObject obj : obj5){
-			if (obj != null)
-				return new GameObject(obj);
+			if (obj != null && (obj.getId() >> 29 & 0x3) == 2){
+				return new GameObject(obj, ObjectType.INTERACTABLE);
+			}
 		}
 		if (obj1 != null)
-			return new GameObject(obj1);
+			return new GameObject(obj1, ObjectType.WALL_OBJECT);
 		
 		if (obj2 != null)
-			return new GameObject(obj2);
+			return new GameObject(obj2, ObjectType.WALL_DECORATION);
 		
 		if (obj3 != null)
-			return new GameObject(obj3);
-		
+			return new GameObject(obj3, ObjectType.GROUND_DECORATION);
 		return null;
 	}
 	
