@@ -5,12 +5,12 @@ import java.awt.Point;
 import nl.wbot.bot.Bot;
 import nl.wbot.bot.accessors.ObjectDef;
 
+import bot.script.enums.ObjectType;
 import bot.script.methods.Calculations;
 import bot.script.methods.Game;
 import bot.script.methods.Menu;
 import bot.script.methods.Methods;
 import bot.script.methods.Mouse;
-import bot.script.util.Random;
 
 /**
  * 
@@ -18,18 +18,32 @@ import bot.script.util.Random;
  *
  */
 public class GameObject extends Methods{
-	nl.wbot.bot.accessors.GameObject accessor;
+	public nl.wbot.bot.accessors.GameObject accessor;
 	Tile location;
 	ObjectDef def;
+	ObjectType type;
 	
 	int x;
 	int y;
 	
-	public GameObject(nl.wbot.bot.accessors.GameObject accessor){
+	int regionX;
+	int regionY;
+	
+	public GameObject(nl.wbot.bot.accessors.GameObject accessor, ObjectType type){
 		this.accessor = accessor;
-		this.x = accessor.getId() & 0x7F;
-		this.y = accessor.getId() >> 7 & 0x7F;
-		this.location = new Tile(x + Game.getRegion().getX(), y + Game.getRegion().getY());
+		this.type = type;
+		
+		this.regionX = accessor.getId() & 0x7F;
+		this.regionY = accessor.getId() >> 7 & 0x7F;
+		
+		if (type == ObjectType.INTERACTABLE){
+			this.x = accessor.getX();
+			this.y = accessor.getY();
+		}else{
+			this.x = (int) ((regionX + 0.5D) * 128.0D);
+			this.y = (int) ((regionY + 0.5D) * 128.0D);
+		}
+		this.location = new Tile(regionX + Game.getRegion().getX(), regionY + Game.getRegion().getY());
 	}
 	
 	public int getId(){
@@ -41,8 +55,20 @@ public class GameObject extends Methods{
 	}
 	
 	public Point getPoint(){
-		Point p = Calculations.worldToScreen((x + 0.5D) * 128.0D, (y + 0.5D) * 128.0D, Game.getPlane());
+		Point p = Calculations.worldToScreen(x, y, Game.getPlane());
 		return p;
+	}
+	
+	public Model getModel(){
+		try{
+			return new Model((nl.wbot.bot.accessors.Model) accessor.getModel(), x, y);
+		}catch(ClassCastException e){
+			return null;
+		}
+	}
+	
+	public ObjectType getType(){
+		return type;
 	}
 	
 	/**
@@ -69,9 +95,13 @@ public class GameObject extends Methods{
 	}
 	
 	public boolean interact(String action){
-		for (int i = 1; i < 20; i++){
-			Point p = getPoint();
-			Mouse.move(p.x + Random.nextInt(i, i*2) - i, p.y + Random.nextInt(i, i*2) - i);
+		for (int i = 1; i < 3; i++){
+			Point p = null;
+			if (getModel() == null)
+				p = getPoint();
+			else
+				p= getModel().getRandomPoint();
+			Mouse.move(p.x, p.y);
 			sleep(80);
 			if (Menu.contains(action)) break;
 		}

@@ -21,6 +21,10 @@ public class Calculations{
 		}
 	}
 	
+	public static boolean onScreen(Point p){
+		return p.x > 10 && p.y > 10 && p.x < 506 && p.y < 330;
+	}
+	
 	public static int angleToTile(Tile t) {
 		Tile me = Players.getLocal().getLocation();
 		int angle = (int) Math.toDegrees(Math.atan2(t.getY() - me.getY(), t.getX() - me.getX()));

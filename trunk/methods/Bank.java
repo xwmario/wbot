@@ -19,13 +19,15 @@ public class Bank extends Methods{
 	
 	public static boolean open(){
 		if (isOpen()) return false;
-		NPC npc = Npcs.getNearest(BANK_NPCS);
-		if (npc != null){
-			return npc.interact("Bank");
-		}
+		
 		GameObject object = Objects.getNearest(BANK_OBJECTS);
 		if (object != null){
 			return object.interact("Use-quickly");
+		}
+		
+		NPC npc = Npcs.getNearest(BANK_NPCS);
+		if (npc != null){
+			return npc.interact("Bank");
 		}
 		return false;
 	}

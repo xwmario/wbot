@@ -3,6 +3,7 @@ package bot.script.methods;
 import java.util.concurrent.TimeoutException;
 
 import nl.wbot.bot.Bot;
+import nl.wbot.pathfinder.PathFinder;
 import bot.script.enums.Tab;
 import bot.script.util.Random;
 import bot.script.wrappers.Interface;
@@ -43,8 +44,11 @@ public class Walking extends Methods{
 	 * @param path
 	 */
 	public static void walkPath(Path path){
-		if (path.isValid())
-			walkTo(path.getNext());
+		if (path.isValid()){
+			Tile next = path.getNext();
+			if (next != null)
+				next.clickMinimap();
+		}
 	}
 	
 	public static Tile getClosestTileOnMap(Tile tile) {
@@ -131,11 +135,10 @@ public class Walking extends Methods{
 	 * @throws TimeoutException Method will be aborted if the pathfinder takes longer then the given timeout miliseconds
 	 */
 	public static Path findPath(Tile a, Tile b, int timeout) throws TimeoutException{
-		/*Tile[] tiles = new Tile[0];
-		tiles = Walker.findPath(a, b, timeout);
+		Tile[] tiles = new Tile[0];
+		tiles = PathFinder.findPath(a, b, timeout);
 		Path path = new Path(tiles);
 		path.traverse();
-		return path;*/
-		return null;
+		return path;
 	}
 }

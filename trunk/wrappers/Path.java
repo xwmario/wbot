@@ -1,6 +1,8 @@
 package bot.script.wrappers;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import bot.script.methods.Calculations;
@@ -8,19 +10,11 @@ import bot.script.methods.Calculations;
 public class Path {
 	private Tile[] tiles;
 	private ArrayList<Tile> walked = new ArrayList<Tile>(); 
-	private boolean isGenerated = false;
 	
 	/**
 	 * @param tiles - All tiles in the path
 	 */
 	public Path(Tile[] tiles){
-		if (tiles.length > 5){
-			int distance = 0;
-			for (int i = 0; i < 5; i++){
-				distance += Calculations.distanceBetween(tiles[0], tiles[i]);
-			}
-			isGenerated = distance < 8;
-		}
 		this.tiles = tiles;
 	}
 	
@@ -53,27 +47,16 @@ public class Path {
 	 * @return a tile
 	 */
 	public Tile getNext(){
-		if (isGenerated){
-			boolean next = false;
-			int count = 0;
-			for (Tile t : tiles){
-				if (!next && t.distance() < 4){
-					next = true;
-				}
-				if (next){
-					count++;
-					if (t.distance() > 13 || count > 15){
-						return t;
-					}
-				}
-			}
-		}
+		if (getEnd().distance() < 12)
+			return getEnd();
 		for (Tile t : tiles){
 			if (!walked.contains(t)){
-				if (t.distance() < 6){
+				if (t.distance() < 12){
 					walked.add(t);
 					continue;
 				}
+				if (t.distance() > 15)
+					walked.clear();
 				return t;
 			}
 		}
@@ -111,6 +94,9 @@ public class Path {
 		for (Tile t : tiles){
 			if (t.isVisible())
 				t.draw(g);
+			g.setColor(Color.black);
+			Point p = Calculations.tileToMinimap(t);
+			g.fillRect(p.x-1, p.y-1, 2, 2);
 		}
 	}
 }
