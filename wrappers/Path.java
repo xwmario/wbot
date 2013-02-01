@@ -3,13 +3,11 @@ package bot.script.wrappers;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.ArrayList;
 
 import bot.script.methods.Calculations;
 
 public class Path {
 	private Tile[] tiles;
-	private ArrayList<Tile> walked = new ArrayList<Tile>(); 
 	
 	/**
 	 * @param tiles - All tiles in the path
@@ -47,20 +45,14 @@ public class Path {
 	 * @return a tile
 	 */
 	public Tile getNext(){
-		if (getEnd().distance() < 12)
-			return getEnd();
-		for (Tile t : tiles){
-			if (!walked.contains(t)){
-				if (t.distance() < 12){
-					walked.add(t);
-					continue;
-				}
-				if (t.distance() > 15)
-					walked.clear();
-				return t;
+		int closest = -1;
+		for (int i = 0; i < tiles.length; i++){
+			if (closest == -1 || tiles[i].distance() < tiles[closest].distance()){
+				closest = i;
 			}
 		}
-		return null;
+		int steps = (int) (16 - tiles[closest].distance());
+		return tiles[closest+steps >= tiles.length ? tiles.length - 1 : closest+steps];
 	}
 	
 	/**
@@ -72,17 +64,17 @@ public class Path {
 	}
 	
 	/**
-	 * Reset all checkpoints in the path. Sould be used when the character start again the path.
+	 * Reset all checkpoints in the path. Isn't needed anymore
 	 */
+	@Deprecated
 	public void reset(){
-		walked.clear();
+		
 	}
 	
 	/**
 	 * Traverse the path
 	 */
 	public void traverse(){
-		reset();
 		Tile[] newPath = new Tile[tiles.length];
 		for (int i = 0; i < tiles.length; i++){
 			newPath[i] = tiles[tiles.length-i-1];
