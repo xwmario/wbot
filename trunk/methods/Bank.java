@@ -11,7 +11,8 @@ import bot.script.wrappers.NPC;
 
 public class Bank extends Methods{
 	public static final int[] BANK_NPCS = {494, 495, 496};
-	public static final int[] BANK_OBJECTS = {2213};
+	public static final int[] BANK_BOOTHS = {2213, 2215, 11758};
+	public static final int[] BANK_CHESTS = {3194};
 	
 	public static boolean isOpen(){
 		return Bot.get().getMainClass().getInventoryInterfaceId() == 5063;
@@ -20,9 +21,14 @@ public class Bank extends Methods{
 	public static boolean open(){
 		if (isOpen()) return false;
 		
-		GameObject object = Objects.getNearest(BANK_OBJECTS);
+		GameObject object = Objects.getNearest(BANK_BOOTHS);
 		if (object != null){
 			return object.interact("Use-quickly");
+		}
+		
+		GameObject chest = Objects.getNearest(BANK_CHESTS);
+		if (chest != null){
+			return chest.interact("Bank");
 		}
 		
 		NPC npc = Npcs.getNearest(BANK_NPCS);

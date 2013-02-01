@@ -35,6 +35,7 @@ public class Objects{
 		if (x < 0 || x > 105 || y < 0 || y > 105)
 			return null;
 		Ground ground = Bot.get().getMainClass().getWorldController().getGround()[Game.getPlane()][x][y];
+		
 		if (ground == null)
 			return null;
 		nl.wbot.bot.accessors.GameObject obj1 = ground.getObject1();
