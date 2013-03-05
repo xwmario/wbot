@@ -15,7 +15,7 @@ public class Walking extends Methods{
 	/**
 	 * Walks to the given tile using the minimap.
 	 *
-	 * @param The tile to walk to.
+	 * @param tile to walk to.
 	 */
 	public static void walkTo(Tile dest){
 		dest = getClosestTileOnMap(dest);
@@ -26,9 +26,9 @@ public class Walking extends Methods{
 	/**
 	 * Walks to the given tile using the minimap with given randomness.
 	 *
-	 * @param The tile to walk to.
-	 * @param The x randomness
-	 * @param The y randomness
+	 * @param tile to walk to.
+	 * @param x randomness
+	 * @param y randomness
 	 */
 	public static void walkTo(Tile dest, int x, int y){
 		Tile tile = new Tile(dest.getX() + Random.nextInt(0, x+1)*2-x*2, dest.getY() + Random.nextInt(0, y+1)*2-y*2);

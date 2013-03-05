@@ -16,10 +16,6 @@ public class Game extends Methods {
         return Bot.get().getMainClass().getPlane();
     }
 
-    public static boolean inGame() {
-        return false;//Bot.get().getMainClass().isLoggedIn();
-    }
-
     public static Tab getTab() {
         for (Component p : Widgets.get(548).getComponents()) {
             if (p.getTextureId() != -1 && p.getActions() != null) {
@@ -55,19 +51,6 @@ public class Game extends Methods {
 
     public static Tile getRegion() {
         return new Tile(Bot.get().getMainClass().getBaseX(), Bot.get().getMainClass().getBaseY());
-    }
-
-    public static int getLoginState() {
-        return 0;//Bot.get().getMainClass().get();
-    }
-
-    public static String getUsername() {
-        return "";//Bot.get().getMainClass().getUsername();
-    }
-
-    @Deprecated
-    public static String getPassword() {
-        return null;
     }
 
     public int[] getSettings() {
