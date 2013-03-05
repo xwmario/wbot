@@ -62,7 +62,7 @@ public class Objects{
 	
 	
 	/**
-	 * Gets all objects in the loaded area. NOTE: The method doesn't filter ground decorations
+	 * Gets all objects in the loaded area
 	 * @return an array of GameObjects from the loaded array
 	 */
 	public static GameObject[] getLoaded(){
