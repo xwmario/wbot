@@ -9,11 +9,11 @@ import bot.script.wrappers.Tile;
 
 public class Camera extends Methods{
 	public static int getAngle(){
-		return (int) (Bot.get().getMainClass().getXCameraCurve() / 5.69);
+		return (int) (Bot.get().getMainClass().getCameraCurveX() / 5.69);
 	}
 	
 	public static int getPitch() {
-		return (int) (((double) Bot.get().getMainClass().getYCameraCurve() / 390) * 100);
+		return (int) (((double) Bot.get().getMainClass().getCameraCurveY() / 390) * 100);
 	}
 	
 	public static void turnToTile(Tile tile) {

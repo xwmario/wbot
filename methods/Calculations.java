@@ -4,9 +4,9 @@ import java.awt.*;
 import java.util.Random;
 
 import nl.wbot.bot.Bot;
-import nl.wbot.bot.accessors.Client;
 
 import bot.script.wrappers.Tile;
+import nl.wbot.client.Client;
 
 public class Calculations{
 	Random random = new Random();
@@ -16,8 +16,10 @@ public class Calculations{
 
 	static {
 		for (int i = 0; i < 2048; i++) {
-			SIN_TABLE[i] = (int) (65536.0 * Math.sin(i * 0.0030679615));
-			COS_TABLE[i] = (int) (65536.0 * Math.cos(i * 0.0030679615));
+            SIN_TABLE[i]
+                    = (int) (Math.sin((double) i * 0.0030679615) * 65536.0);
+            COS_TABLE[i]
+                    = (int) (Math.cos((double) i * 0.0030679615) * 65536.0);
 		}
 	}
 	
@@ -48,12 +50,14 @@ public class Calculations{
 	}
 	
 	public static Point tileToScreen(int x, int y, int height) {
-        return worldToScreen((x - Bot.get().getMainClass().getBaseX()) * 128, (y - Bot.get().getMainClass().getBaseY()) * 128, height);
+        x = (x - Bot.get().getMainClass().getBaseX()) * 128;
+        y = (y - Bot.get().getMainClass().getBaseY()) * 128;
+        return worldToScreen(x, y, tileHeight(x, y) - height);
     }
 	
 	public static int tileHeight(int x, int y) {
 		final Client client = Bot.get().getMainClass();
-        final int[][][] groundHeights = client.getGroundData();
+        final int[][][] groundHeights = client.getTileHeights();
         if(groundHeights == null)
             return 0;
         int x1 = x >> 7;
@@ -63,51 +67,46 @@ public class Calculations{
         int x2 = x & 0x7f;
         int y2 = y & 0x7f;
         int zIndex = client.getPlane();
-        if(zIndex > 3 && (client.getGroundByteArray()[1][x1][y1] & 2) == 2)
+        if(zIndex > 3 && (client.getTileSettings()[1][x1][y1] & 2) == 2)
             zIndex++;
         int i2 = (((-x2 + 128) * groundHeights[zIndex][x1][y1]) + (x2 * groundHeights[zIndex][x1 + 1][y1])) >> 7;
         int j2 = ((groundHeights[zIndex][x1][1 + y1] * (128 - x2)) + (groundHeights[zIndex][1 + x1][1 + y1] * x2)) >> 7;
         return ((i2 * (128 - y2)) - -(y2 * j2)) >> 7;
     }
 
-	public static Point worldToScreen(double X, double Y, int height) {
-		X += 5;
-		Y -= 11;
-		if (X < 128 || Y < 128 || X > 13056 || Y > 13056 || Bot.get().getMainClass().getGroundData() == null) {
-			return new Point(-1,-1);
-		}
-		int tileCalculation = tileHeight((int) X, (int) Y) - height;
-		X -= Bot.get().getMainClass().getXCameraPos();
-		tileCalculation -= Bot.get().getMainClass().getZCameraPos();
-		int curvexsin = SIN_TABLE[Bot.get().getMainClass().getXCameraCurve()];
-		int curvexcos = COS_TABLE[Bot.get().getMainClass().getXCameraCurve()];
-		Y -= Bot.get().getMainClass().getYCameraPos();
-		int curveysin = SIN_TABLE[Bot.get().getMainClass().getYCameraCurve()];
-		int curveycos = COS_TABLE[Bot.get().getMainClass().getYCameraCurve()];
-		int calculation = curvexsin * (int) Y + ((int) X * curvexcos) >> 16;
-		Y = -(curvexsin * (int) X) + (int) Y * curvexcos >> 16;
-		X = calculation;
-		calculation = curveycos * tileCalculation - curveysin * (int) Y >> 16;
-		Y = curveysin * tileCalculation + ((int) Y * curveycos) >> 16;
-		tileCalculation = calculation;
-		if (Y < 50) return new Point(-1,-1);
-		
-		int ScreenX = ((int) X << 9) / (int) Y + 256;
-		int ScreenY = (tileCalculation << 9) / (int) Y + 167;
 
-		Point p = new Point(ScreenX, ScreenY);
-		return p;
-	}
-	
+
+    public static  Point worldToScreen(int x, int y, int height){
+        x -= Bot.get().getMainClass().getCameraY();
+        height -= Bot.get().getMainClass().getCameraZ();
+        y -= Bot.get().getMainClass().getCameraX();
+        int var5 = SIN_TABLE[Bot.get().getMainClass().getCameraCurveY()];
+        int var6 = COS_TABLE[Bot.get().getMainClass().getCameraCurveY()];
+        int var7 = SIN_TABLE[Bot.get().getMainClass().getCameraCurveX()];
+        int var8 = COS_TABLE[Bot.get().getMainClass().getCameraCurveX()];
+        int var9 = var7 * y + var8 * x >> 16;
+        y = y * var8 - var7 * x >> 16;
+        x = var9;
+        var9 = var6 * height - y * var5 >> 16;
+        y = y * var6 + var5 * height >> 16;
+        if(y == 0)
+            return new Point(-1,-1);
+        int ScreenX = ((int) x << 9) / (int) y + 256;
+        int ScreenY = (var9 << 9) / (int) y + 167;
+
+        Point p = new Point(ScreenX, ScreenY);
+        return p;
+    }
+
 	private static Point worldToMinimap(int regionX, int regionY){
-	    int angle = Bot.get().getMainClass().getMinimapInt1() + Bot.get().getMainClass().getMinimapInt2() & 0x7FF;
+	    int angle = Bot.get().getMainClass().getViewRotation() + Bot.get().getMainClass().getMinimapRotation() & 0x7FF;
 	    int j = regionX * regionX + regionY * regionY;
 	 
 	    if (j > 6400)
 	        return new Point(-1, -1);
 	 
-	    int sin = Calculations.SIN_TABLE[angle] * 256 / (Bot.get().getMainClass().getMinimapInt3() + 256);
-	    int cos = Calculations.COS_TABLE[angle] * 256 / (Bot.get().getMainClass().getMinimapInt3() + 256);
+	    int sin = Calculations.SIN_TABLE[angle] * 256 / (Bot.get().getMainClass().getMinimapZoom() + 256);
+	    int cos = Calculations.COS_TABLE[angle] * 256 / (Bot.get().getMainClass().getMinimapZoom() + 256);
 	 
 	    int x = regionY * sin + regionX * cos >> 16;
 	    int y = regionY * cos - regionX * sin >> 16;

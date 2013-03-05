@@ -13,7 +13,7 @@ import bot.script.util.Random;
  *
  */
 public class Model {
-	nl.wbot.bot.accessors.Model accessor;
+	//nl.wbot.client.Model accessor;
 	Entity entity;
 	
 	int x;
@@ -38,18 +38,18 @@ public class Model {
 		}
 	}
 	
-	public Model(nl.wbot.bot.accessors.Model accessor, int x, int y){
-		this.accessor = accessor;
+	public Model(Object accessor, int x, int y){
+		//this.accessor = accessor;
 		
 		this.x = x;
 		this.y = y;
 		
-		xPoints = accessor.getXPoints();
+		/*xPoints = accessor.getXPoints();
 		yPoints = accessor.getYPoints();
 		zPoints = accessor.getZPoints();
 		indices1 = accessor.getIndices1();
 		indices2 = accessor.getIndices2();
-		indices3 = accessor.getIndices3();
+		indices3 = accessor.getIndices3(); */
 		
 	}
 	

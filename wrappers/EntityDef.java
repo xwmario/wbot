@@ -1,19 +1,22 @@
 package bot.script.wrappers;
+
+import nl.wbot.client.NpcDefinition;
+
 /**
  * 
  * @author Webjoch
  *
  */
 public class EntityDef {
-	nl.wbot.bot.accessors.EntityDef accessor;
+	nl.wbot.client.NpcDefinition accessor;
 	
-	public EntityDef(nl.wbot.bot.accessors.EntityDef accessor){
+	public EntityDef(NpcDefinition accessor){
 		this.accessor = accessor;
 	}
 	
 	public String[] getActions(){
 		if (accessor == null) return null;
-		return accessor.getActions();
+		return null;//accessor.getActions();
 	}
 	
 	public String getName(){
@@ -21,10 +24,10 @@ public class EntityDef {
 	}
 	
 	public int getLevel(){
-		return accessor.getLevel();
+		return accessor.getCombatLevel();
 	}
 	
 	public long getType(){
-		return accessor == null ? 0 : accessor.getType();
+		return accessor == null ? 0 : accessor.getId();
 	}
 }

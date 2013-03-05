@@ -2,27 +2,17 @@ package bot.script.methods;
 
 import java.util.ArrayList;
 
-import nl.wbot.bot.Bot;
-
+import bot.script.wrappers.Component;
 import bot.script.wrappers.GameObject;
-import bot.script.wrappers.Interface;
 import bot.script.wrappers.Item;
 
 public class Inventory extends Methods{
 	
 	public static Item[] getItems(){
 		ArrayList<Item> items = new ArrayList<Item>();
-		int ifaceId = Bot.get().getMainClass().getInventoryInterfaceId() < 0 ? 3214 : Bot.get().getMainClass().getInventoryInterfaceId() + 1;
-		Interface iface = Interfaces.getInterface(ifaceId);
-		if (iface.getItems() == null) return null;
-		int i = 0;
-		for(int itemId : iface.getItems()){
-			if (itemId > 0){
-				items.add(new Item(i, itemId, iface));
-			}
-			i++;
-		}
-		return items.toArray(new Item[items.size()]);
+		//int ifaceId = 0;//Bot.get().getMainClass().getInventoryInterfaceId() < 0 ? 3214 : Bot.get().getMainClass().getInventoryInterfaceId() + 1;
+		Component iface = Widgets.getComponent(149, 0);
+		return iface.getItems();
 	}
 	
 	public static Item getItem(int id){

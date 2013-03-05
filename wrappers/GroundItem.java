@@ -9,13 +9,12 @@ import bot.script.methods.Mouse;
 import bot.script.util.Random;
 
 import nl.wbot.bot.Bot;
-import nl.wbot.bot.accessors.ItemDef;
 
 public class GroundItem {
-	nl.wbot.bot.accessors.Item accessor;
+	nl.wbot.client.GroundItem accessor;
 	int x, y, realX, realY;
-	
-	public GroundItem(nl.wbot.bot.accessors.Item item, int x, int y){
+
+	public GroundItem(nl.wbot.client.GroundItem item, int x, int y){
 		this.accessor = item;
 		this.realX = x;
 		this.realY = y;
@@ -31,8 +30,10 @@ public class GroundItem {
 		return new Tile(x, y);
 	}
 	
-	public Point getPoint(){		
-		return Calculations.worldToScreen(realX * 128 + 64, realY * 128 + 64, 0);
+	public Point getPoint(){
+        int x = realX * 128 + 64;
+        int y = realY * 128 + 64;
+		return Calculations.worldToScreen(x, y, Calculations.tileHeight(x, y));
 	}
 	
 	public boolean interact(String action){
@@ -49,9 +50,9 @@ public class GroundItem {
 		return getLocation().distance();
 	}
 	
-	public ItemDef getDef(){
+	/*public ItemDef getDef(){
 		return Bot.get().getMainClass().getItemDef(getId());
-	}
+	}*/
 	
 	public boolean isValid(){
 		return accessor != null;

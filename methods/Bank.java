@@ -2,10 +2,8 @@ package bot.script.methods;
 
 import java.util.ArrayList;
 
-import nl.wbot.bot.Bot;
-
+import bot.script.wrappers.Component;
 import bot.script.wrappers.GameObject;
-import bot.script.wrappers.Interface;
 import bot.script.wrappers.Item;
 import bot.script.wrappers.NPC;
 
@@ -15,7 +13,7 @@ public class Bank extends Methods{
 	public static final int[] BANK_CHESTS = {3194};
 	
 	public static boolean isOpen(){
-		return Bot.get().getMainClass().getInventoryInterfaceId() == 5063;
+		return false;//Bot.get().getMainClass().getInventoryInterfaceId() == 5063;
 	}
 	
 	public static boolean open(){
@@ -40,24 +38,14 @@ public class Bank extends Methods{
 	
 	public static boolean close(){
 		if (!isOpen()) return false;
-		Interfaces.getInterface(5292, 5384);
+		//Interfaces.getInterface(5292, 5384);
 		return true;
 	}
 	
 	public static Item[] getItems(){
-		ArrayList<Item> items = new ArrayList<Item>();
-		Interface iface = Interfaces.getInterface(5292, 5385);
-		if (iface != null) iface = iface.getChilds()[0];
-		if (iface == null || iface.getItems() == null) return null;
-		int i = 0;
-		for(int itemId : iface.getItems()){
-			if (itemId > 0){
-				items.add(new Item(i, itemId, iface));
-			}
-			i++;
-		}
-		return items.toArray(new Item[items.size()]);
-	}
+		Component iface = Widgets.getComponent(12, 89);
+		return iface.getItems();
+    }
 	
 	public static Item getItem(int id){
 		for(Item item : getItems()){
@@ -70,7 +58,7 @@ public class Bank extends Methods{
 	public static int getCount(){
 		return getItems().length;
 	}
-	
+
 	public static int getCount(boolean countStackSize){
 		if (!countStackSize)
 			return getCount();

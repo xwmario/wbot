@@ -6,6 +6,7 @@ import nl.wbot.bot.Bot;
 
 import bot.script.util.Filter;
 import bot.script.wrappers.NPC;
+import nl.wbot.client.Npc;
 
 /**
  * 
@@ -15,7 +16,7 @@ import bot.script.wrappers.NPC;
 public class Npcs extends Methods{
 	public static NPC[] getLoaded(){
 		ArrayList<NPC> npcs = new ArrayList<NPC>();
-		for(nl.wbot.bot.accessors.NPC n : Bot.get().getMainClass().getNpcs()){
+		for(Npc n : Bot.get().getMainClass().getNpcArray()){
 			if (n == null) continue;
 			npcs.add(new NPC(n));
 		}

@@ -3,24 +3,24 @@ package bot.script.methods;
 import java.util.ArrayList;
 
 import nl.wbot.bot.Bot;
-import nl.wbot.bot.accessors.Item;
-import nl.wbot.bot.accessors.NodeList;
 
 import bot.script.util.Filter;
 import bot.script.wrappers.GroundItem;
+import nl.wbot.client.Deque;
 
 public class GroundItems {
 	public static GroundItem[] getLoaded(){
 		ArrayList<GroundItem> gi = new ArrayList<GroundItem>();
-		for(NodeList[][] nl : Bot.get().getMainClass().getGroundArray()){
+		for(Deque[][] nl : Bot.get().getMainClass().getGroundItems()){
 			for(int x = 0; x < nl.length; x++){
 				for(int y = 0; y < nl[x].length; y++){
-					NodeList nodeList = nl[x][y];
+                    Deque nodeList = nl[x][y];
 					if (nodeList != null)
-					if (nodeList != null && nodeList.getHead() != null && nodeList.getHead().getPrev() instanceof Item){
-						Item i = (Item) nodeList.getHead().getPrev();
+					if (nodeList != null && nodeList.getHead() != null && nodeList.getHead().getNext() instanceof nl.wbot.client.GroundItem){
+						nl.wbot.client.GroundItem i = (nl.wbot.client.GroundItem) nodeList.getHead().getNext();
 						gi.add(new GroundItem(i, x, y));
-					}
+
+                    }
 				}
 			}
 		}
