@@ -16,8 +16,8 @@ public class Players {
 	 * @return your character
 	 */
 	public static Player getLocal(){
-		if (Bot.get().getMainClass().getMyPlayer() == null) return null;
-		return new Player(Bot.get().getMainClass().getMyPlayer());
+		if (Bot.get().getMainClass().getLocalPlayer() == null) return null;
+		return new Player(Bot.get().getMainClass().getLocalPlayer());
 	}
 	
 	/**
@@ -26,7 +26,7 @@ public class Players {
 	 */
 	public static Player[] getLoaded(){
 		ArrayList<Player> players = new ArrayList<Player>();
-		for(nl.wbot.bot.accessors.Player p : Bot.get().getMainClass().getPlayers()){
+		for(nl.wbot.client.Player p : Bot.get().getMainClass().getPlayerArray()){
 			if (p == null) continue;
 			players.add(new Player(p));
 		}

@@ -41,14 +41,9 @@ public class Menu extends Methods{
 	
 	public static String[] getActions(){
 		ArrayList<String> actions = new ArrayList<String>();
-		
-		for (int i = Bot.get().getMainClass().getMenuActionRow()-1; i >= 0; i--){
-			String action = Bot.get().getMainClass().getCurrentActions()[i];
-			if (action.contains("@")){
-				action = action.substring(0, action.indexOf("@") - 1);
-			}
-			actions.add(action);
-		}
+		for (int i = Bot.get().getMainClass().getMenuOptionsCount()-1; i >= 0; i--){
+            actions.add(Bot.get().getMainClass().getMenuActions()[i] + " " + Bot.get().getMainClass().getMenuOptions()[i]);
+        }
 		return actions.toArray(new String[actions.size()]);
 	}
 	

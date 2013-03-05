@@ -1,32 +1,63 @@
 package bot.script.enums;
 
+import bot.script.methods.Widgets;
+import bot.script.wrappers.Component;
+
 import java.awt.Point;
 
-public enum Tab{
-	COMBAT(0, new Point(560, 187)),
-	SKILLS(1, new Point(585, 187)),
-	QUEST(2, new Point(612, 187)),
-	INVENTORY(3, new Point(650, 187)),
-	EQUIPMENT(4, new Point(684, 187)),
-	PRAYER(5, new Point(710, 187)),
-	SPELLBOOK(6, new Point(740, 187)),
-	FRIENDLIST(8, new Point(585, 483)),
-	IGNORELIST(9, new Point(612, 483)),
-	LOGOUT(10, new Point(648, 483)),
-	SETTINGS(11, new Point(683, 483)),
-	CONTROLS(12, new Point(712, 483)),
-	MUSIC(13, new Point(737, 483));
-	
-	int id;
-	Point point;
-	Tab(int id, Point point){
-		this.id = id;
-		this.point = point;
-	}
-	public int getId(){
-		return id;
-	}
-	public Point getPoint(){
-		return point;
-	}
+/*
+[Clan Chat]
+[Friends List]
+[Ignore List]
+[Logout]
+[Options]
+[Emotes]
+[Music Player]
+[Combat Options]
+[Stats]
+[Quest List]
+[Inventory]
+[Worn Equipment]
+[Prayer]
+[Magic]
+ */
+public enum Tab {
+    COMBAT("Combat Options"),
+    SKILLS("Stats"),
+    QUEST("Quest List"),
+    INVENTORY("Inventory"),
+    EQUIPMENT("Worn Equipment"),
+    PRAYER("Prayer"),
+    MAGIC("Magic"),
+    CLAN_CHAT("Clan Chat"),
+    FRIEND_LIST("Friends List"),
+    IGNORE_LIST("Ignore List"),
+    LOGOUT("Logout"),
+    SETTINGS("Options"),
+    EMOTES("Emotes"),
+    MUSIC("Music Player");
+
+    String name;
+
+    Tab(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Point getPoint() {
+        for (Component p : Widgets.get(548).getComponents()) {
+            if (p.getActions() != null) {
+                for (String s : p.getActions()) {
+                    if (getName().equals(s)) {
+                        return new Point(p.getX() + (p.getHeight() / 2), p.getY() + (p.getWidth() / 2));
+                    }
+                }
+            }
+        }
+        return new Point(-1 , -1);
+    }
+
 }

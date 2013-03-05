@@ -3,7 +3,7 @@ package bot.script.methods;
 import java.util.ArrayList;
 
 import nl.wbot.bot.Bot;
-import nl.wbot.bot.accessors.Ground;
+import nl.wbot.client.GroundTile;
 
 import bot.script.enums.ObjectType;
 import bot.script.util.Filter;
@@ -26,7 +26,7 @@ public class Objects{
 	}
 	
 	/**
-	 * Gets the object in a region
+	 * Gets an object in a region
 	 * @param x 
 	 * @param y
 	 * @return
@@ -34,21 +34,18 @@ public class Objects{
 	public static GameObject getObjectInRegion(int x, int y){
 		if (x < 0 || x > 105 || y < 0 || y > 105)
 			return null;
-		Ground ground = Bot.get().getMainClass().getWorldController().getGround()[Game.getPlane()][x][y];
+		GroundTile ground = Bot.get().getMainClass().getSceneGraph().getTiles()[Game.getPlane()][x][y];
 		
 		if (ground == null)
 			return null;
-		nl.wbot.bot.accessors.GameObject obj1 = ground.getObject1();
-		nl.wbot.bot.accessors.GameObject obj2 = ground.getObject2();
-		nl.wbot.bot.accessors.GameObject obj3 = ground.getObject3();
-		//nl.wbot.bot.accessors.GameObject obj4 = ground.getObject4();
-		nl.wbot.bot.accessors.GameObject[] obj5 = ground.getObject5();
+		nl.wbot.client.GameObject obj1 = ground.getWallObject();
+		nl.wbot.client.GameObject obj2 = ground.getWallDecoration();
+		nl.wbot.client.GameObject obj3 = ground.getGroundDecoration();
+		nl.wbot.client.GameObject[] obj5 = ground.getInteractiveObjects();
 
-		/*if (obj4 != null)
-			return new GameObject(obj4, ObjectType.GROUND_OBJECT);*/
 		
-		for(nl.wbot.bot.accessors.GameObject obj : obj5){
-			if (obj != null && (obj.getId() >> 29 & 0x3) == 2){
+		for(nl.wbot.client.GameObject obj : obj5){
+			if (obj != null && (obj.getHash() >> 29 & 0x3) == 2){
 				return new GameObject(obj, ObjectType.INTERACTABLE);
 			}
 		}

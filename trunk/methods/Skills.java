@@ -14,7 +14,7 @@ public class Skills{
 	 * @return the xp
 	 */
 	public static int getXp(int skill){
-		return Bot.get().getMainClass().getCurrentXp()[skill];
+		return Bot.get().getMainClass().getSkillExperiences()[skill];
 	}
 	
 	public static int getXp(Skill skill){

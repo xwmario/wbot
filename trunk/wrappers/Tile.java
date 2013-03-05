@@ -129,10 +129,10 @@ public class Tile {
 	}
 	
 	private static void update(){
-		if (Bot.get().getMainClass() == null || Bot.get().getMainClass().getTileInfo() == null || Game.getRegion() == null)
+		if (Bot.get().getMainClass() == null || Bot.get().getMainClass().getCollisionMap() == null || Game.getRegion() == null)
 			return;
 		if (data == null || region == null || !region.equals(Game.getRegion())){
-			data = Bot.get().getMainClass().getTileInfo()[Game.getPlane()].getTileData();
+			data = Bot.get().getMainClass().getCollisionMap()[Game.getPlane()].getFlags();
 			region = Game.getRegion();
 		}
 	}

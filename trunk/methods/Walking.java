@@ -1,12 +1,8 @@
 package bot.script.methods;
 
-import java.util.concurrent.TimeoutException;
-
 import nl.wbot.bot.Bot;
-import nl.wbot.pathfinder.PathFinder;
 import bot.script.enums.Tab;
 import bot.script.util.Random;
-import bot.script.wrappers.Interface;
 import bot.script.wrappers.Path;
 import bot.script.wrappers.Tile;
 
@@ -67,13 +63,13 @@ public class Walking extends Methods{
 	}
 	
 	public static void setRun(boolean on){
-		if (Game.getTab() != Tab.CONTROLS){
-			Game.openTab(Tab.CONTROLS);
+		if (Game.getTab() != Tab.SETTINGS){
+			Game.openTab(Tab.SETTINGS);
 			sleep(200);
 		}
-		if (Game.getTab() == Tab.CONTROLS){
-			Interface iface = Interfaces.getInterface(147, on ? 153 : 152);
-			iface.click();
+		if (Game.getTab() == Tab.SETTINGS){
+			//Interface iface = Interfaces.getInterface(147, on ? 153 : 152);
+			//iface.click();
 		}
 	}
 	
@@ -101,44 +97,5 @@ public class Walking extends Methods{
 		Tile base = new Tile(Bot.get().getMainClass().getBaseX(), Bot.get().getMainClass().getBaseY());
 		if (getDestination().getX() == base.getX() && getDestination().getY() == base.getY()) return true;
 		return getDestination().distance() < 5;
-	}
-	
-	/**
-	 * Find the shortest path from the characters current location and the given location
-	 * @param destination the path`s destination. This must be a walkable tile.
-	 * @return the path
-	 * @throws TimeoutException Method will be aborted if the pathfinder takes longer then 60 seconds
-	 */
-	public static Path findPath(Tile destination) throws TimeoutException{
-		if (Players.getLocal() == null)
-			return null;
-		return findPath(Players.getLocal().getLocation(), destination);
-	}
-	
-	/**
-	 * Find the shortest path between 2 locations.
-	 * @param a the start location
-	 * @param b the destination
-	 * @return the path
-	 * @throws TimeoutException Method will be aborted if the pathfinder takes longer then 60 seconds
-	 */
-	public static Path findPath(Tile a, Tile b) throws TimeoutException{
-		return findPath(a, b, 60000);
-	}
-	
-	/**
-	 * IN DEVELOPMENT Find the shortest path between 2 locations.
-	 * @param a the start location
-	 * @param b the destination
-	 * @param timeout maximum amount of time in miliseconds to find the path 
-	 * @return the path
-	 * @throws TimeoutException Method will be aborted if the pathfinder takes longer then the given timeout miliseconds
-	 */
-	public static Path findPath(Tile a, Tile b, int timeout) throws TimeoutException{
-		Tile[] tiles = new Tile[0];
-		tiles = PathFinder.findPath(a, b, timeout);
-		Path path = new Path(tiles);
-		path.traverse();
-		return path;
 	}
 }

@@ -14,10 +14,10 @@ import bot.script.util.Random;
  * @author Webjoch
  *
  */
-public class Entity extends Methods{
-	nl.wbot.bot.accessors.Entity accessor;
+public class Entity extends Methods {
+	nl.wbot.client.Entity accessor;
 	
-	public Entity(nl.wbot.bot.accessors.Entity accessor){
+	public Entity(nl.wbot.client.Entity accessor){
 		this.accessor = accessor;
 	}
 	
@@ -37,11 +37,11 @@ public class Entity extends Methods{
 	}
 	
 	public int getHeight(){
-		return accessor.getHeight();
+		return 200;//accessor.getHeight();
 	}
 	
 	public Point getPoint(){
-		return Calculations.worldToScreen(accessor.getX(), accessor.getY(), accessor.getHeight() / 2);
+		return Calculations.worldToScreen(accessor.getX(), accessor.getY(), Calculations.tileHeight(accessor.getX(), accessor.getY()));
 	}
 	
 	public int getAnimation(){
@@ -49,16 +49,16 @@ public class Entity extends Methods{
 	}
 	
 	public boolean isMoving(){
-		return accessor.isMoving() > 0;
+		return accessor.getWalkingQueueSize() > 0;
 	}
 	
 	public boolean isVisible(){
 		Point p = getPoint();
 		return p.x > 0 && p.y > 0 && p.x < 516 && p.y < 340;
 	}
-	
+
 	public String getSpokenText(){
-		return accessor.getTextSpoken();
+		return "";//accessor.getTextSpoken();
 	}
 	
 	public boolean interact(String action){
@@ -76,7 +76,7 @@ public class Entity extends Methods{
 	}
 	
 	public boolean inCombat(){
-		return accessor.getLoopCycleStatus() > Bot.get().getMainClass().getLoopCycle();
+		return accessor.getLastHit() > Bot.get().getMainClass().getLoopCycle();
 	}
 
 	public double distance(){
@@ -84,21 +84,21 @@ public class Entity extends Methods{
 	}
 	
 	public int getInteractingIndex(){
-		return accessor.getInteracting();
+		return accessor.getInteractingIndex();
 	}
 	
 	@Deprecated
 	public NPC getInteracting(){
-		return new NPC(Bot.get().getMainClass().getNpcs()[getInteractingIndex()]);
+		return new NPC(Bot.get().getMainClass().getNpcArray()[getInteractingIndex()]);
 	}
 	
 	public Entity getInteractingEntity(){
 		int index = getInteractingIndex();
 		if(index < 32768){
-			return new NPC(Bot.get().getMainClass().getNpcs()[index]);
+			return new NPC(Bot.get().getMainClass().getNpcArray()[index]);
 		}else{
 			index -= 32768;
-			return new Player(Bot.get().getMainClass().getPlayers()[index]);
+			return new Player(Bot.get().getMainClass().getPlayerArray()[index]);
 		}
 	}
 	
@@ -107,7 +107,7 @@ public class Entity extends Methods{
 	}*/
 	
 	public int getOrientation(){
-		return accessor.getOrientation();
+		return -1;//accessor.getOrientation();
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class Entity extends Methods{
 	 * @return the enitities health in percent (0 = dead)
 	 */
 	public int getHealthPercent(){
-		if (accessor.getCurrentHealth() == 0) return inCombat() ? 0 : 100;
-		return (int) ((double) accessor.getCurrentHealth() / accessor.getMaxHealth() * 100);
+		if (accessor.getHealth() == 0) return inCombat() ? 0 : 100;
+		return (int) ((double) accessor.getHealth() / accessor.getMaxHealth() * 100);
 	}
 }

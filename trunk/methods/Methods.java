@@ -2,6 +2,7 @@ package bot.script.methods;
 
 import java.util.logging.Logger;
 
+import bot.script.util.Condition;
 import nl.wbot.bot.Bot;
 
 import bot.script.util.Random;
@@ -26,6 +27,12 @@ public class Methods {
 	public static void sleep(int time1, int time2){
 		sleep(Random.nextInt(time1, time2));
 	}
+
+    public void sleep(int maxtime, Condition c) {
+        for (int i = 0; i < maxtime / 50 && !c.validate(); i++) {
+            sleep(maxtime / 50);
+        }
+    }
 	
 	public static boolean inArray(int[] array, int needle){
 		for(int value : array){
