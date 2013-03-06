@@ -17,11 +17,11 @@ import bot.script.methods.Mouse;
  *
  */
 public class GameObject extends Methods{
-	public nl.wbot.client.GameObject accessor;
-	Tile location;
-	ObjectType type;
-	int regionX;
-	int regionY;
+	private nl.wbot.client.GameObject accessor;
+    private Tile location;
+    private ObjectType type;
+    private int regionX;
+    private int regionY;
 	
 	public GameObject(nl.wbot.client.GameObject accessor, ObjectType type){
 		this.accessor = accessor;
@@ -71,7 +71,7 @@ public class GameObject extends Methods{
 	public boolean click(){
 		if (!isVisible()) return false;
 		Mouse.move(getPoint());
-		sleep(200);
+		sleep(200, 250);
 		Mouse.click(true);
 		return true;
 	}

@@ -2,12 +2,11 @@ package bot.script.util;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Gebruiker
+ * User: Jeroen
  * Date: 5-3-13
- * Time: 9:49
- * To change this template use File | Settings | File Templates.
+ * Time: 17:05
  */
 public interface Condition {
 
-    public abstract boolean validate();
+    public boolean validate();
 }

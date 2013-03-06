@@ -50,10 +50,6 @@ public class GroundItem {
 		return getLocation().distance();
 	}
 	
-	/*public ItemDef getDef(){
-		return Bot.get().getMainClass().getItemDef(getId());
-	}*/
-	
 	public boolean isValid(){
 		return accessor != null;
 	}

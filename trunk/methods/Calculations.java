@@ -67,7 +67,7 @@ public class Calculations{
         int x2 = x & 0x7f;
         int y2 = y & 0x7f;
         int zIndex = client.getPlane();
-        if(zIndex > 3 && (client.getTileSettings()[1][x1][y1] & 2) == 2)
+        if(zIndex < 3 && (client.getTileSettings()[1][x1][y1] & 2) == 2)
             zIndex++;
         int i2 = (((-x2 + 128) * groundHeights[zIndex][x1][y1]) + (x2 * groundHeights[zIndex][x1 + 1][y1])) >> 7;
         int j2 = ((groundHeights[zIndex][x1][1 + y1] * (128 - x2)) + (groundHeights[zIndex][1 + x1][1 + y1] * x2)) >> 7;
