@@ -8,12 +8,19 @@ import bot.script.wrappers.Item;
 import bot.script.wrappers.NPC;
 
 public class Bank extends Methods{
-	public static final int[] BANK_NPCS = {494, 495, 496};
-	public static final int[] BANK_BOOTHS = {2213, 2215, 11758};
+	public static final int[] BANK_NPCS = {5912, 5913};
+	public static final int[] BANK_BOOTHS = {11402};
 	public static final int[] BANK_CHESTS = {3194};
 	
 	public static boolean isOpen(){
-		return false;//Bot.get().getMainClass().getInventoryInterfaceId() == 5063;
+        Component iface = Widgets.getComponent(12, 89);
+        if (iface == null)
+            return false;
+        for(int i = 0; i < iface.getInventoryItems().length; i++){
+            if (iface.getInventoryItems()[i] == 0 && iface.getInventoryStackSizes()[i] > 0)
+                return false;
+        }
+		return true;
 	}
 	
 	public static boolean open(){
@@ -38,14 +45,19 @@ public class Bank extends Methods{
 	
 	public static boolean close(){
 		if (!isOpen()) return false;
-		//Interfaces.getInterface(5292, 5384);
-		return true;
+		Component c = Widgets.getComponent(12, 102);
+        if (c != null){
+            return c.interact("Close");
+        }
+        return false;
 	}
 	
 	public static Item[] getItems(){
 		Component iface = Widgets.getComponent(12, 89);
+        if (iface == null)
+            return new Item[0];
 		return iface.getItems();
-    }
+	}
 	
 	public static Item getItem(int id){
 		for(Item item : getItems()){
@@ -58,7 +70,7 @@ public class Bank extends Methods{
 	public static int getCount(){
 		return getItems().length;
 	}
-
+	
 	public static int getCount(boolean countStackSize){
 		if (!countStackSize)
 			return getCount();
@@ -86,7 +98,8 @@ public class Bank extends Methods{
 			break;
 		default:
 			if (amount >= item.getStacksize() || amount == 0){
-				item.interact("Withdraw All");
+				boolean b = item.interact("Withdraw All");
+                Methods.log(b);
 			}else{
 				item.interact("Withdraw X");
 				sleep(800, 1000);

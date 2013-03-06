@@ -36,6 +36,6 @@ public class Widget extends Methods {
 
     @Override
     public String toString() {
-        return "Interface " + getIndex();
+        return "Widget " + getIndex();
     }
 }

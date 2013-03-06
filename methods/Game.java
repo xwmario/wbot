@@ -40,9 +40,9 @@ public class Game extends Methods {
     public static void logout() {
         if (getTab() != Tab.LOGOUT) {
             openTab(Tab.LOGOUT);
-            sleep(50);
+            sleep(100);
         }
-        //Interfaces.getInterface(2449, 2458).click();
+        Widgets.getComponent(182, 6).click();
     }
 
     public static int[][] getTileData() {
@@ -53,7 +53,7 @@ public class Game extends Methods {
         return new Tile(Bot.get().getMainClass().getBaseX(), Bot.get().getMainClass().getBaseY());
     }
 
-    public int[] getSettings() {
+    public static int[] getSettings() {
         return Bot.get().getMainClass().getSettings();
     }
 

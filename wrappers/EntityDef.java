@@ -13,17 +13,12 @@ public class EntityDef {
 	public EntityDef(NpcDefinition accessor){
 		this.accessor = accessor;
 	}
-	
-	public String[] getActions(){
-		if (accessor == null) return null;
-		return null;//accessor.getActions();
-	}
-	
+
 	public String getName(){
 		return accessor.getName();
 	}
 	
-	public int getLevel(){
+	public int getCombatLevel(){
 		return accessor.getCombatLevel();
 	}
 	

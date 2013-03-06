@@ -1,6 +1,10 @@
 package bot.script.wrappers;
 
+import bot.script.methods.Menu;
+import bot.script.methods.Methods;
+import bot.script.methods.Mouse;
 import bot.script.methods.Widgets;
+import bot.script.util.Random;
 import nl.wbot.bot.Bot;
 import nl.wbot.client.*;
 
@@ -89,6 +93,24 @@ public class Component {
         return accessor.getActions();
     }
 
+    public void click(){
+        Point p = getRandomPoint();
+        Mouse.move(p);
+        Methods.sleep(100, 200);
+        Mouse.click(true);
+    }
+
+    public boolean interact(String action){
+        Point p = getRandomPoint();
+        Mouse.move(p);
+        Methods.sleep(200, 300);
+        return Menu.interact(action);
+    }
+
+    public Point getRandomPoint(){
+        return new Point(getX() + Random.nextInt(0, getWidth()), getY() + Random.nextInt(0, getWidth()));
+    }
+
     public Component[] getChilds() {
         ArrayList<Component> childs = new ArrayList<Component>();
         if (accessor != null && accessor.getChildren() != null) {
@@ -132,10 +154,10 @@ public class Component {
         } else {
             int[] posX = Bot.get().getMainClass().getInterfacePosX();
             if (accessor.getBoundsIndex() != -1 && posX[accessor.getBoundsIndex()] > 0) {
-                return posX[accessor.getBoundsIndex()] + (accessor.getType() > 0 ? accessor.getX() : 0);
+                return (posX[accessor.getBoundsIndex()] + (accessor.getType() > 0 ? accessor.getX() : 0))  - accessor.getScrollBarH();
             }
         }
-        return accessor.getX() + x;
+        return (accessor.getX() + x) - accessor.getScrollBarH();
     }
 
     public int getY() {
@@ -149,10 +171,18 @@ public class Component {
         } else {
             int[] posY = Bot.get().getMainClass().getInterfacePosY();
             if (accessor.getBoundsIndex() != -1 && posY[accessor.getBoundsIndex()] > 0) {
-                return posY[accessor.getBoundsIndex()] + (accessor.getType() > 0 ? accessor.getY() : 0);
+                return (posY[accessor.getBoundsIndex()] + (accessor.getType() > 0 ? accessor.getY() : 0))  - accessor.getScrollBarV();
             }
         }
-        return y + accessor.getY();
+        return (y + accessor.getY()) - accessor.getScrollBarV();
+    }
+
+    public int getScrollBarH() {
+        return accessor.getScrollBarH();
+    }
+
+    public int getScrollBarV() {
+        return accessor.getScrollBarV();
     }
 
     public Point getPoint(){
@@ -215,15 +245,18 @@ public class Component {
 
     @Override
     public String toString() {
-        return "Component: " + getIndex();
+        return "Component " + getIndex();
     }
 
     public Item[] getItems(){
-        Item[] items = new Item[getInventoryItems().length];
+        ArrayList<Item> items = new ArrayList<Item>();
         for(int i = 0; i < getInventoryItems().length; i++){
-            items[i] = new Item(i, this);
+            if (getInventoryItems()[i] == 0)
+                continue;
+            Item item = new Item(i, this);
+            items.add(item);
         }
-        return items;
+        return items.toArray(new Item[items.size()]);
     }
 
     public int[] getInventoryStackSizes() {
@@ -231,14 +264,20 @@ public class Component {
     }
 
     public int[] getInventoryItems() {
+        if (accessor == null)
+            return new int[0];
         return accessor.getInventoryItems();
     }
 
     public int getTextureId() {
+        if (accessor == null)
+            return -1;
         return accessor.getTextureId();
     }
 
     public int getId() {
+        if (accessor == null)
+            return -1;
         return accessor.getId();
     }
 

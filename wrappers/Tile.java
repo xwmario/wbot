@@ -39,7 +39,7 @@ public class Tile {
 	}
 	
 	public Point toScreen(){
-		return Calculations.tileToScreen(x, y, 1);
+		return Calculations.tileToScreen(x, y, Game.getPlane());
 	}
 	
 	public boolean isVisible(){

@@ -37,11 +37,11 @@ public class Entity extends Methods {
 	}
 	
 	public int getHeight(){
-		return 200;//accessor.getHeight();
+		return accessor.getHeight();
 	}
 	
 	public Point getPoint(){
-		return Calculations.worldToScreen(accessor.getX(), accessor.getY(), Calculations.tileHeight(accessor.getX(), accessor.getY()));
+		return Calculations.worldToScreen(accessor.getX(), accessor.getY(), Calculations.tileHeight(accessor.getX(), accessor.getY()) - (accessor.getHeight() / 2));
 	}
 	
 	public int getAnimation(){
@@ -51,14 +51,14 @@ public class Entity extends Methods {
 	public boolean isMoving(){
 		return accessor.getWalkingQueueSize() > 0;
 	}
-	
-	public boolean isVisible(){
+
+    public int getWalkingQueueSize() {
+        return accessor.getWalkingQueueSize();
+    }
+
+    public boolean isVisible(){
 		Point p = getPoint();
 		return p.x > 0 && p.y > 0 && p.x < 516 && p.y < 340;
-	}
-
-	public String getSpokenText(){
-		return "";//accessor.getTextSpoken();
 	}
 	
 	public boolean interact(String action){
@@ -87,11 +87,6 @@ public class Entity extends Methods {
 		return accessor.getInteractingIndex();
 	}
 	
-	@Deprecated
-	public NPC getInteracting(){
-		return new NPC(Bot.get().getMainClass().getNpcArray()[getInteractingIndex()]);
-	}
-	
 	public Entity getInteractingEntity(){
 		int index = getInteractingIndex();
 		if(index < 32768){
@@ -102,14 +97,6 @@ public class Entity extends Methods {
 		}
 	}
 	
-	/*public Entiry getInteractingEntity(){
-		
-	}*/
-	
-	public int getOrientation(){
-		return -1;//accessor.getOrientation();
-	}
-	
 	/**
 	 * Only works if the entity is in combat.
 	 * @return the enitities health in percent (0 = dead)
@@ -118,4 +105,8 @@ public class Entity extends Methods {
 		if (accessor.getHealth() == 0) return inCombat() ? 0 : 100;
 		return (int) ((double) accessor.getHealth() / accessor.getMaxHealth() * 100);
 	}
+
+    public int getCurrentHealth(){
+        return accessor.getHealth() / 30;
+    }
 }

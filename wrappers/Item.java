@@ -43,10 +43,17 @@ public class Item extends Methods {
     }
 
     public Point getPoint() {
-        int col = (index % 4);
-        int row = (index / 4);
-        int x = 580 + (col * 42);
-        int y = 228 + (row * 36);
+        int x, y;
+        if(iface.getHeight() == 8){
+            x = (index % 8) * 47 + iface.getX() + 50;
+            y = (((index / 8) * 37 + iface.getY() + 75) - iface.getScrollBarV());
+        }else{
+            int col = (index % 4);
+            int row = (index / 4);
+            x = 580 + (col * 42);
+            y = 228 + (row * 36);
+        }
         return new Point(x, y);
     }
+
 }

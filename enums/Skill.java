@@ -5,7 +5,7 @@ package bot.script.enums;
  * The indexes aren't complete!
  */
 public enum Skill{
-	ATACK(0),
+	ATTACK(0),
 	STRENGTH(2),
 	DEFENCE(1),
 	RANGED(4),
