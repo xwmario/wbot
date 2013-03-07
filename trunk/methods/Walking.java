@@ -1,5 +1,6 @@
 package bot.script.methods;
 
+import bot.script.wrappers.Component;
 import nl.wbot.bot.Bot;
 import bot.script.enums.Tab;
 import bot.script.util.Random;
@@ -67,10 +68,10 @@ public class Walking extends Methods{
 			Game.openTab(Tab.SETTINGS);
 			sleep(200);
 		}
-		if (Game.getTab() == Tab.SETTINGS){
-			//Interface iface = Interfaces.getInterface(147, on ? 153 : 152);
-			//iface.click();
-		}
+		/*if (Game.getTab() == Tab.SETTINGS){
+			Component iface = Interfaces.getInterface(147, on ? 153 : 152);
+			iface.click();
+		}   */
 	}
 	
 	public static boolean isRunOn(){
