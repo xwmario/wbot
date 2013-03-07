@@ -42,10 +42,10 @@ public class Tile {
 		return Calculations.tileToScreen(x, y, Game.getPlane());
 	}
    
-  public Point getCenterPoint(Tile t){
-    Tile t1 = new Tile(t.getX() + 1, t.getY() + 1);
-    return new Point((int)((t.toScreen().getX() + t1.toScreen().getX()) / 2),(int)((t.toScreen().getY() + t1.toScreen().getY()) / 2));
-  }
+        public Point getCenterPoint(Tile t){
+                Tile t1 = new Tile(t.getX() + 1, t.getY() + 1);
+                return new Point((int)((t.toScreen().getX() + t1.toScreen().getX()) / 2),(int)((t.toScreen().getY() + t1.toScreen().getY()) / 2));
+        }
 	
 	public boolean isVisible(){
 		Point p = toScreen();
