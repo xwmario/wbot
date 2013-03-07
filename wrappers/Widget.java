@@ -3,6 +3,7 @@ package bot.script.wrappers;
 import java.util.ArrayList;
 
 import bot.script.methods.Methods;
+import bot.script.methods.Widgets;
 
 /**
  * @author Webjoch
@@ -32,6 +33,14 @@ public class Widget extends Methods {
 
     public int getIndex() {
         return index;
+    }
+
+    public boolean isValid(Widget w) {
+        for (Widget i : Widgets.getLoaded()) {
+            if (w.getIndex() == i.getIndex())
+                return true;
+        }
+        return false;
     }
 
     @Override

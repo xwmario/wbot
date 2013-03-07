@@ -9,7 +9,7 @@ import bot.script.wrappers.NPC;
 
 public class Bank extends Methods{
 	public static final int[] BANK_NPCS = {5912, 5913};
-	public static final int[] BANK_BOOTHS = {11402};
+	public static final int[] BANK_BOOTHS = {11402, 2213};
 	public static final int[] BANK_CHESTS = {3194};
 	
 	public static boolean isOpen(){

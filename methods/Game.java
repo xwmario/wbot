@@ -60,4 +60,12 @@ public class Game extends Methods {
     public static Account getAccount() {
         return Bot.get().getScriptHandler().getAccount();
     }
+
+    public static int getGameState(){
+        return Bot.get().getMainClass().getGameState();
+    }
+
+    public static boolean isLoggedIn(){
+        return getGameState() == 30;
+    }
 }

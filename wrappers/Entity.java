@@ -86,9 +86,12 @@ public class Entity extends Methods {
 	public int getInteractingIndex(){
 		return accessor.getInteractingIndex();
 	}
-	
-	public Entity getInteractingEntity(){
+
+    public Entity getInteractingEntity(){
 		int index = getInteractingIndex();
+        if(index == -1){
+            return null;
+        }
 		if(index < 32768){
 			return new NPC(Bot.get().getMainClass().getNpcArray()[index]);
 		}else{
@@ -108,5 +111,9 @@ public class Entity extends Methods {
 
     public int getCurrentHealth(){
         return accessor.getHealth() / 30;
+    }
+
+    public int getMaxHealth() {
+        return accessor.getMaxHealth();
     }
 }
