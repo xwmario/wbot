@@ -43,8 +43,8 @@ public class Tile {
 	}
    
   public Point getCenterPoint(Tile t){
-		Tile t1 = new Tile(t.getX() + 1, t.getY() + 1);
-		return new Point((int)((t.toScreen().getX() + t1.toScreen().getX()) / 2),(int)((t.toScreen().getY() + t1.toScreen().getY()) / 2));
+    Tile t1 = new Tile(t.getX() + 1, t.getY() + 1);
+    return new Point((int)((t.toScreen().getX() + t1.toScreen().getX()) / 2),(int)((t.toScreen().getY() + t1.toScreen().getY()) / 2));
   }
 	
 	public boolean isVisible(){
@@ -70,8 +70,7 @@ public class Tile {
 	
 	public double distance(){
 		return Calculations.distanceTo(this);
-	}
-	
+	}	
 
 	public boolean onMinimap(){
 		return Calculations.distanceTo(this) < 17;
