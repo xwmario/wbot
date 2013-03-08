@@ -44,6 +44,24 @@ public class Mouse extends Methods{
 		Bot.get().getMouse().pressed = false;
 		releaseMouse(getX(), getY(), left);
 	}
+   
+   /**
+	 * Clicks within a boundary using the Random class.
+	 *
+	 * @param x1	The top-left x coordinate of the boundary.
+	 * @param y1	The top-left y coordinate of the boundary..
+	 * @param x2	The bottom-right x coordinate of the boundary..
+	 * @param y2	The bottom-right y coordinate of the boundary.
+	 */
+	public static void clickRandomPoint(int x1, int y1, int x2, int y2)
+	{
+		click(new Point(bot.script.util.Random.nextInt(x1, x2), bot.script.util.Random.nextInt(y1, y2)));
+	}
+	
+	public static void clickRandomPoint(Point topLeftPoint, Point bottomRightPoint)
+	{
+		click(new Point(bot.script.util.Random.nextInt(topLeftPoint.x, bottomRightPoint.x), bot.script.util.Random.nextInt(topLeftPoint.y, bottomRightPoint.y)));
+	}
 	
 	public static void hop(final int x, final int y) {
 		final MouseEvent me = new MouseEvent(Bot.get().getClient(), MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0, x, y, 0, false);
