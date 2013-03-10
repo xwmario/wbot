@@ -40,7 +40,7 @@ public class Mouse extends Methods{
 	public static void click(boolean left) {
 		Bot.get().getMouse().pressed = true;
 		pressMouse(getX(), getY(), left);
-		sleep(150);
+		sleep(bot.script.util.Random.nextGaussian(50, 100, 20));
 		Bot.get().getMouse().pressed = false;
 		releaseMouse(getX(), getY(), left);
 	}
