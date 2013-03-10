@@ -45,6 +45,16 @@ public class GroundItem {
 		}
 		return Menu.interact(action);
 	}
+   
+	public boolean interact(String action, String option){
+		for (int i = 1; i < 10; i++){
+			Point p = getPoint();
+			Mouse.move(p.x + Random.nextInt(i, i*2) - i*2, p.y + Random.nextInt(i, i*2) - i*2);
+			Methods.sleep(100);
+			if (Menu.contains(action) && Menu.contains(option) break;
+		}
+		return Menu.interact(action, option);
+	}
 	
 	public double distance(){
 		return getLocation().distance();
