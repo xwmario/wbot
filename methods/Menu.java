@@ -110,10 +110,6 @@ public class Menu extends Methods {
     public static boolean interact(String action, String option) {
       int index = getActionIndex(action, option);
       if (index < 0) return false;
-      if (index == 0) {
-          Mouse.click(true);
-          return true;
-      }
       Mouse.click(false);
       for (int i = 0; i < 100 && !isOpen(); i++) sleep(5);
       if (isOpen()) {
