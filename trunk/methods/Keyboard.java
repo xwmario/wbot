@@ -189,11 +189,6 @@ public class Keyboard extends Methods {
 		}
 	}
 
-	/**
-	 * Returns the keyboard associated with this thread-group to relay events to.
-	 *
-	 * @return The <code>org.powerbot.game.client.input.Keyboard</code> to relay events to.
-	 */
 	private static nl.wbot.bot.input.Keyboard getKeyboard() {
 		return Bot.get().getKeyboard();
 	}

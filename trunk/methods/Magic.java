@@ -1,6 +1,6 @@
-package methods;
+package bot.script.methods;
 
-import enums.Spell;
+import bot.script.enums.Spell;
 
 /**
  * Author iJava
