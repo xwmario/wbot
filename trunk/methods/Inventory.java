@@ -6,12 +6,12 @@ import bot.script.wrappers.Component;
 import bot.script.wrappers.GameObject;
 import bot.script.wrappers.Item;
 
-public class Inventory extends Methods{
+public class Inventory extends bot.script.methods.Methods {
 	
 	public static Item[] getItems(){
 		ArrayList<Item> items = new ArrayList<Item>();
 		//int ifaceId = 0;//Bot.get().getMainClass().getInventoryInterfaceId() < 0 ? 3214 : Bot.get().getMainClass().getInventoryInterfaceId() + 1;
-		Component iface = Widgets.getComponent(149, 0);
+		Component iface = bot.script.methods.Widgets.getComponent(149, 0);
 		return iface.getItems();
 	}
 	
