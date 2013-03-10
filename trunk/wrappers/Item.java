@@ -41,6 +41,15 @@ public class Item extends Methods {
         sleep(200);
         return bot.script.methods.Menu.interact(action);
     }
+    
+    public boolean interact(String action, String option) {
+        if (Game.getTab() != Tab.INVENTORY) {
+            Game.openTab(Tab.INVENTORY);
+        }
+        Mouse.move(getPoint());
+        sleep(200);
+        return bot.script.methods.Menu.interact(action, option);
+    }
 
     public Point getPoint() {
         int x, y;
