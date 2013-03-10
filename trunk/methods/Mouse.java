@@ -29,7 +29,17 @@ public class Mouse extends Methods{
 	public static void click(Point p){
 		click(p.x, p.y);
 	}
-	
+
+    public static void click(int x, int y, boolean left) {
+        move(x, y);
+        sleep(100);
+        click(left);
+        sleep(100);
+    }
+
+    public static void click(Point p, boolean left) {
+        click(p.x, p.y, left);
+    }
 	public static void click(int x, int y){
 		move(x, y);
 		sleep(100);

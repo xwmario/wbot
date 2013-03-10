@@ -24,11 +24,11 @@ public class Methods {
 		}
 	}
 	
-	public static void sleep(int time1, int time2){
-		sleep(Random.nextInt(time1, time2));
+	public static void sleep(int begin, int end){
+		sleep(Random.nextInt(begin, end));
 	}
 
-    public void sleep(int maxtime, Condition c) {
+    public static void sleep(int maxtime, Condition c) {
         for (int i = 0; i < maxtime / 50 && !c.validate(); i++) {
             sleep(maxtime / 50);
         }
