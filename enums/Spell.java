@@ -1,4 +1,4 @@
-package enums;
+package bot.script.enums;
 
 /**
  * Author : iJava
