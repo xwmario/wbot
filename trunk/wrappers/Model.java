@@ -79,4 +79,25 @@ public class Model {
 		}
 		return new Point(-1, -1);
 	}
+   public Point getMeanPoint(){
+		Polygon[] triangles = getTriangles();
+		int xTotal = 0;
+		int yTotal = 0;
+		int pTotal = 0;
+		for(Polygon p: triangles){
+			for(int i = 0; i < p.npoints; i++){
+				int x = p.xpoints[i];
+				int y = p.ypoints[i];
+				if(Calculations.onScreen(new Point(x, y))){
+					xTotal += x;
+					yTotal += y;
+					pTotal++;
+				}
+			}
+		}
+		if(pTotal > 0){
+			return new Point((xTotal/pTotal), (yTotal/pTotal));
+		}
+		return new Point(-1, -1);
+	}
 }
