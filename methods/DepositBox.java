@@ -34,7 +34,7 @@ public class DepositBox {
         int[] ids = Widgets.getComponent(WIDGET_ID, ITEM_COMP_ID).getInventoryItems();
         int count = 0;
         boolean stack = false;
-        if (Inventory.getItem(itemId).getStacksize() > 0) {
+        if (Inventory.getItem(itemId).getStacksize() > 1) {
             count = Inventory.getCount(itemId, true);
             stack = true;
         } else {
