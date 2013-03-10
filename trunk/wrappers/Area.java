@@ -1,7 +1,6 @@
 package bot.script.wrappers;
 
-import java.awt.Polygon;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 
 import bot.script.methods.Calculations;
@@ -12,46 +11,40 @@ import bot.script.methods.Calculations;
  *
  */
 
-public class Area {
+public class Area{
 	private final Polygon area;
 	private final int plane;
 
-	public Area(final Tile[] tiles) {
-		this(tiles, 0);
-	}
-
-	public Area(final Tile[] tiles, final int plane) {
-		area = tileArrayToPolygon(tiles);
+	public Area(final Tile[] tiles, final int plane){
+		area = tilesToPolygon(tiles);
 		this.plane = plane;
 	}
 
-	public Area(final Tile sw, final Tile ne) {
-		this(sw, ne, 0);
+	public Area(final Tile[] tiles){
+		this(tiles, 0);
 	}
 
-	public Area(final Tile sw, final Tile ne, final int plane) {
-		this(new Tile[]{sw, new Tile(ne.getX() + 1, sw.getY()),
-				               new Tile(ne.getX() + 1, ne.getY() + 1),
-				               new Tile(sw.getX(), ne.getY() + 1)}, plane);
+	public Area(final Tile southwest, final Tile northeast){
+		this(southwest, northeast, 0);
 	}
 
-	public Area(final int swX, final int swY, final int neX, final int neY) {
+	public Area(final int swX, final int swY, final int neX, final int neY){
 		this(new Tile(swX, swY), new Tile(neX, neY), 0);
 	}
 
-	public boolean contains(final int x, final int y) {
-		return this.contains(new Tile(x, y));
+	public Area(final int swX, final int swY, final int neX, final int neY, final int plane){
+		this(new Tile(swX, swY), new Tile(neX, neY), plane);
 	}
 
-	public boolean contains(final int plane, final Tile... tiles) {
-		return this.plane == plane && this.contains(tiles);
+	public Area(final Tile southwest, final Tile northeast, final int plane){
+		this(new Tile[]{southwest, new Tile(northeast.getX() + 1, southwest.getY()), new Tile(northeast.getX() + 1, northeast.getY() + 1), new Tile(southwest.getX(), northeast.getY() + 1)}, plane);
 	}
 
-	public boolean contains(final Tile... tiles) {
-		final Tile[] areaTiles = getTileArray();
-		for (final Tile check : tiles) {
-			for (final Tile space : areaTiles) {
-				if (check.equals(space)) {
+	public boolean contains(final Tile... tiles){
+		final Tile[] areaTiles = getTiles();
+		for(final Tile check: tiles){
+			for(final Tile space: areaTiles){
+				if(check.equals(space)){
 					return true;
 				}
 			}
@@ -59,97 +52,69 @@ public class Area {
 		return false;
 	}
 
-	public Rectangle getBounds() {
+	public boolean contains(final int x, final int y){
+		return this.contains(new Tile(x, y));
+	}
+
+	public boolean contains(final int plane, final Tile... tiles){
+		return this.plane == plane && this.contains(tiles);
+	}
+
+	public Rectangle getDimensions(){
 		return new Rectangle(area.getBounds().x + 1, area.getBounds().y + 1, getWidth(), getHeight());
 	}
 
-	public Tile getCentralTile() {
-		if (area.npoints < 1) {
-			return null;
-		}
-		int totalX = 0, totalY = 0;
-		for (int i = 0; i < area.npoints; i++) {
-			totalX += area.xpoints[i];
-			totalY += area.ypoints[i];
-		}
-		return new Tile(Math.round(totalX / area.npoints), Math.round(totalY / area.npoints));
-	}
-
-	public Tile getNearestTile(final Tile base) {
-		Tile currTile = null;
-		for (final Tile tile : getTileArray()) {
-			if (currTile == null || Calculations.distanceBetween(base, tile)
-					                        < Calculations.distanceBetween(currTile, tile)) {
-				currTile = tile;
+	public Tile getNearestTile(final Tile base){
+		Tile tempTile = null;
+		for(final Tile tile : getTiles()){
+			if(tempTile == null || Calculations.distanceBetween(base, tile) < Calculations.distanceBetween(tempTile, tile)){
+				tempTile = tile;
 			}
 		}
-		return currTile;
+		return tempTile;
 	}
 
-	public int getPlane() {
+	public int getPlane(){
 		return plane;
 	}
-	public Tile[] getTileArray() {
-		final ArrayList<Tile> list = new ArrayList<Tile>();
-		for (int x = getX(); x <= getX() + getWidth(); x++) {
-			for (int y = getY(); y <= getY() + getHeight(); y++) {
-				if (area.contains(x, y)) {
-					list.add(new Tile(x, y));
+
+	public Polygon getPolygon(){
+		return area;
+	}
+
+	public Tile[] getTiles(){
+		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		for(int x = getX(); x <= getX() + getWidth(); x++){
+			for(int y = getY(); y <= getY() + getHeight(); y++){
+				if(area.contains(x, y)){
+					tiles.add(new Tile(x, y));
 				}
 			}
 		}
-		return list.toArray(new Tile[list.size()]);
+		return tiles.toArray(new Tile[tiles.size()]);
 	}
 
-	public Tile[][] getTiles() {
-		final Tile[][] tiles = new Tile[getWidth()][getHeight()];
-		for (int i = 0; i < getWidth(); ++i) {
-			for (int j = 0; j < getHeight(); ++j) {
-				if (area.contains(getX() + i, getY() + j)) {
-					tiles[i][j] = new Tile(getX() + i, getY() + j);
-				}
-			}
-		}
-		return tiles;
-	}
-
-	public int getWidth() {
+	public int getWidth(){
 		return area.getBounds().width;
 	}
 
-	public int getHeight() {
+	public int getHeight(){
 		return area.getBounds().height;
 	}
 
-	public int getX() {
+	public int getX(){
 		return area.getBounds().x;
 	}
 
-	public int getY() {
+	public int getY(){
 		return area.getBounds().y;
 	}
 
-	public Tile[][] getAreaTiles() {
-		Tile[][] tileArray = new Tile[getWidth()][getHeight()];
-		int i = 0;
-		while (i < getHeight()) {
-			int j = 0;
-			while (j < getWidth()) {
-				if (this.area.contains(getX() + i, getY() + j)) {
-					tileArray[i][j] = new Tile(getX() + i, getY() + j);
-				}
-				j++;
-			}
-			i++;
+	public Polygon tilesToPolygon(final Tile[] tiles){
+		final Polygon polygon = new Polygon();
+		for(final Tile t : tiles){
+			polygon.addPoint(t.getX(), t.getY());
 		}
-		return tileArray;
-	}
-
-	private Polygon tileArrayToPolygon(final Tile[] tiles) {
-		final Polygon poly = new Polygon();
-		for (final Tile t : tiles) {
-			poly.addPoint(t.getX(), t.getY());
-		}
-		return poly;
+		return polygon;
 	}
 }
