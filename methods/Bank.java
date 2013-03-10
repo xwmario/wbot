@@ -111,7 +111,7 @@ public class Bank extends Methods {
                 } else {
                     item.interact("Withdraw X");
                     sleep(800, 1000);
-                    Keyboard.typeText("" + amount, true);
+                    Keyboard.typeText(String.valueOf(amount), true);
                 }
         }
         for (int i = 0; i < 100; i++) {
@@ -142,7 +142,7 @@ public class Bank extends Methods {
                 } else {
                     item.interact("Store X");
                     sleep(800, 1000);
-                    Keyboard.typeText("" + amount, true);
+                    Keyboard.typeText(String.valueOf(amount), true);
                 }
         }
         for (int i = 0; i < 100; i++) {
