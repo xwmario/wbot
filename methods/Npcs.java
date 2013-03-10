@@ -46,7 +46,7 @@ public class Npcs extends Methods {
     }
 
     public static NPC getNearest(String name) {
-        NPC nearest;
+        NPC nearest = null;
         double dist = 999999;
         for (NPC npc : getLoaded()) {
             if (npc.getDef().getName().equals(name) && npc.distance() < dist) {
