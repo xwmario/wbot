@@ -111,7 +111,7 @@ public class Objects{
 		}
 		return nearest;
 	}
-	
+
 	public static GameObject getNearest(Filter<GameObject> filter) {
 		GameObject cur = null;
 		double dist = -1;
