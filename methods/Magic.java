@@ -3,7 +3,7 @@ package bot.script.methods;
 import bot.script.enums.Spell;
 
 /**
- * Author iJava
+ * @author iJava
  */
 public class Magic {
 

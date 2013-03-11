@@ -1,7 +1,7 @@
 package bot.script.enums;
 
 /**
- * Author : iJava
+ * @author iJava
  */
 public enum Spell {
 
