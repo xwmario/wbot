@@ -33,14 +33,7 @@ public class Menu extends Methods {
     }
 
     public static int getActionIndex(String action) {
-        int i = 0;
-        for (String anAction : getActions()) {
-            if (anAction.toLowerCase().contains(action.toLowerCase())) {
-                return i;
-            }
-            i++;
-        }
-        return -1;
+      return getActionIndex(action, "");
     }
     
     public static int getActionIndex(String action, String option) {
@@ -87,24 +80,7 @@ public class Menu extends Methods {
     }
 
     public static boolean interact(String action) {
-        int index = getActionIndex(action);
-        if (index < 0) return false;
-        if (index == 0) {
-            Mouse.click(true);
-            return true;
-        }
-        Mouse.click(false);
-        for (int i = 0; i < 100 && !isOpen(); i++) sleep(5);
-        if (isOpen()) {
-            sleep(100);
-            int x = getPosition().x + 30;
-            int y = getPosition().y + 29 + index * 15;
-            Mouse.move(x, y);
-            sleep(100);
-            Mouse.click(true);
-            return true;
-        }
-        return false;
+      return interact(action, "");
     }
     
     public static boolean interact(String action, String option) {
