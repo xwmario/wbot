@@ -25,11 +25,11 @@ public class Screenshot {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            ImageIO.write((RenderedImage) image, (file.getName().substring(file.getName().indexOf('.'), file.getName().length())), file);
+            return ImageIO.write((RenderedImage) image, (file.getName().substring(file.getName().lastIndexOf('.') + 1, file.getName().length())), file);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-        return file.exists() && image != null;
+        return false;
     }
 }
