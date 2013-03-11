@@ -103,7 +103,11 @@ public class Walking extends Methods {
         Tile[] reverse = new Tile[path.getTileArray().length];
         int index = 0;
         for (int i = path.getTileArray().length - 1; i >= 0; i--) {
+            if(path.getTileArray()[i] == null) {
+                continue;
+            }
             reverse[index] = path.getTileArray()[i];
+            index++;
         }
         return new Path(reverse);
     }
