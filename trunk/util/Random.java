@@ -11,14 +11,18 @@ public class Random {
 		return random.nextDouble();
 	}
   
-  public static int nextGaussian(final int min, final int max, final int sd) {
-     if (min == max) {
-        return min;
-     }
-     int x = min - 1;
-     while (x < min || x >= max) {
-        x = (int) (random.nextGaussian() * sd + (min + (max - min) / 2));
-     }
-     return x;
-  }
+	public static double nextDouble(final double min, final double max) {
+		return (max - min) * (min + random.nextDouble());
+	}
+  
+	public static int nextGaussian(final int min, final int max, final int sd) {
+		if (min == max) {
+		return min;
+		}
+		int x = min - 1;
+		while (x < min || x >= max) {
+		x = (int) (random.nextGaussian() * sd + (min + (max - min) / 2));
+		}
+		return x;
+	}
 }

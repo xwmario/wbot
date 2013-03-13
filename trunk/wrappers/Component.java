@@ -101,10 +101,14 @@ public class Component {
     }
 
     public boolean interact(String action){
+		return interact(action, "");
+    }
+	
+	public boolean interact(String action, String option){
         Point p = getRandomPoint();
         Mouse.move(p);
         Methods.sleep(200, 300);
-        return Menu.interact(action);
+        return Menu.interact(action, option);
     }
 
     public Point getRandomPoint(){

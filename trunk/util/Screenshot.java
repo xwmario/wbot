@@ -20,7 +20,7 @@ public class Screenshot {
     }
 
     public static boolean saveScreenshot(File file) {
-        Image image = Bot.get().getMainClass().getCanvas().getScreen().getImage();
+        Image image = getImage();
         try {
             if (!file.exists()) {
                 file.createNewFile();

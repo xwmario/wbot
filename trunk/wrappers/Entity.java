@@ -62,13 +62,17 @@ public class Entity extends Methods {
 	}
 	
 	public boolean interact(String action){
+		return interact(action, "");
+	}
+	
+	public boolean interact(String action, String option){
 		for (int i = 1; i < 15; i++){
 			Point p = getPoint();
 			Mouse.move(p.x + Random.nextInt(i, i*2) - i, p.y + Random.nextInt(i, i*2) - i);
 			sleep(100);
-			if (Menu.contains(action)) break;
+			if (Menu.contains(action, option)) break;
 		}
-		return Menu.interact(action);
+		return Menu.interact(action, option);
 	}
 	
 	public boolean isDead(){

@@ -53,6 +53,14 @@ public class Inventory extends bot.script.methods.Methods {
 		return false;
 	}
 	
+	public static boolean containsAll(int[] ids){
+		for(int id : ids){
+			if (!contains(id))
+				return false;
+		}
+		return true;
+	}
+	
 	public static boolean itemOnObject(Item item, GameObject object){
 		if (item == null || object == null || !Inventory.contains(item.getId()) || !object.isVisible())
 			return false;
