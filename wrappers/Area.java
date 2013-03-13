@@ -1,120 +1,63 @@
 package bot.script.wrappers;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-import bot.script.methods.Calculations;
+import bot.script.wrappers.Tile;
 
 /**
- *
- * @author Jewtage
- *
+ * Do not use this without permission.
+ * User: harrynoob
+ * Date: 13-3-13
+ * Time: 20:26
  */
-
-public class Area{
-	private final Polygon area;
-	private final int plane;
-
-	public Area(final Tile[] tiles, final int plane){
-		area = tilesToPolygon(tiles);
-		this.plane = plane;
-	}
-
-	public Area(final Tile[] tiles){
-		this(tiles, 0);
-	}
-
-	public Area(final Tile southwest, final Tile northeast){
-		this(southwest, northeast, 0);
-	}
-
-	public Area(final int swX, final int swY, final int neX, final int neY){
-		this(new Tile(swX, swY), new Tile(neX, neY), 0);
-	}
-
-	public Area(final int swX, final int swY, final int neX, final int neY, final int plane){
-		this(new Tile(swX, swY), new Tile(neX, neY), plane);
-	}
-
-	public Area(final Tile southwest, final Tile northeast, final int plane){
-		this(new Tile[]{southwest, new Tile(northeast.getX() + 1, southwest.getY()), new Tile(northeast.getX() + 1, northeast.getY() + 1), new Tile(southwest.getX(), northeast.getY() + 1)}, plane);
-	}
-
-	public boolean contains(final Tile... tiles){
-		final Tile[] areaTiles = getTiles();
-		for(final Tile check: tiles){
-			for(final Tile space: areaTiles){
-				if(check.equals(space)){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public boolean contains(final int x, final int y){
-		return this.contains(new Tile(x, y));
-	}
-
-	public boolean contains(final int plane, final Tile... tiles){
-		return this.plane == plane && this.contains(tiles);
-	}
-
-	public Rectangle getDimensions(){
-		return new Rectangle(area.getBounds().x + 1, area.getBounds().y + 1, getWidth(), getHeight());
-	}
-
-	public Tile getNearestTile(final Tile base){
-		Tile tempTile = null;
-		for(final Tile tile : getTiles()){
-			if(tempTile == null || Calculations.distanceBetween(base, tile) < Calculations.distanceBetween(tempTile, tile)){
-				tempTile = tile;
-			}
-		}
-		return tempTile;
-	}
-
-	public int getPlane(){
-		return plane;
-	}
-
-	public Polygon getPolygon(){
-		return area;
-	}
-
-	public Tile[] getTiles(){
-		ArrayList<Tile> tiles = new ArrayList<Tile>();
-		for(int x = getX(); x <= getX() + getWidth(); x++){
-			for(int y = getY(); y <= getY() + getHeight(); y++){
-				if(area.contains(x, y)){
-					tiles.add(new Tile(x, y));
-				}
-			}
-		}
-		return tiles.toArray(new Tile[tiles.size()]);
-	}
-
-	public int getWidth(){
-		return area.getBounds().width;
-	}
-
-	public int getHeight(){
-		return area.getBounds().height;
-	}
-
-	public int getX(){
-		return area.getBounds().x;
-	}
-
-	public int getY(){
-		return area.getBounds().y;
-	}
-
-	public Polygon tilesToPolygon(final Tile[] tiles){
-		final Polygon polygon = new Polygon();
-		for(final Tile t : tiles){
-			polygon.addPoint(t.getX(), t.getY());
-		}
-		return polygon;
-	}
+public class Area {
+ 
+    private final Polygon p = new Polygon();
+    public Area() {
+    }
+ 
+    public Area(final int x1, final int x2, final int y1, final int y2) {
+        p.addPoint(x1 < x2 ? x1 : x2, y1 < y2 ? y1 : y2);
+        p.addPoint(x1 < x2 ? x2 : x1, y1 < y2 ? y2 : y1);
+    }
+ 
+    public Area(final Tile t1, final Tile t2) {
+        this(t1.getX(), t2.getX(), t1.getY(), t2.getY());
+    }
+ 
+    public boolean contains(final Tile t) {
+        return p.contains(t.getX(), t.getY());
+    }
+ 
+    public void addPoints(final Tile... t) {
+        for(final Tile t1 : t) {
+            p.addPoint(t1.getX(), t1.getY());
+        }
+    }
+ 
+    public Dimension getDimension() {
+        return p.getBounds().getSize();
+    }
+ 
+    public int getX() {
+        return (int)p.getBounds().getX();
+    }
+ 
+    public int getY() {
+        return (int)p.getBounds().getY();
+    }
+ 
+    public Tile getNearestTile(final Tile base) {
+        Tile closest = null;
+        double dist = 9999;
+        for(int i = 0; i < p.npoints - 1; i++) {
+            double nD = Math.sqrt(Math.pow(p.xpoints[i], 2) + Math.pow(p.ypoints[i], 2));
+            if(nD < dist) {
+                closest = new Tile(p.xpoints[i], p.ypoints[i]);
+                dist = nD;
+            }
+        }
+        return closest;
+    }
+ 
 }
