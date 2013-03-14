@@ -21,7 +21,7 @@ public enum SkillData {
     MAGIC(Skill.MAGIC),
     MINING(Skill.MINING),
     WOODCUTTING(Skill.WOODCUTTING),
-    RUNECRAFT(Skill.RUNECRAFT),
+    RUNECRAFT(Skill.RUNECRAFTING),
     SLAYER(Skill.SLAYER),
     HERBLORE(Skill.HERBLORE),
     FLETCHING(Skill.FLETCHING),
@@ -32,7 +32,9 @@ public enum SkillData {
     FARMING(Skill.FARMING),
     FIREMAKING(Skill.FIREMAKING),
     FISHING(Skill.FISHING),
-    THIEVING(Skill.THIEVING);
+    THIEVING(Skill.THIEVING),
+    HUNTER(Skill.HUNTER),
+    CONSTRUCTION(Skill.CONSTRUCTION);
 
     private final String name;
     private final Skill skill;
