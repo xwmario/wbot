@@ -23,8 +23,9 @@ public class Bank extends Methods {
     }
 
     public static boolean open() {
-        if (isOpen()) return false;
-
+      if (isOpen()) {
+      return true;
+  }
         GameObject object = Objects.getNearest(BANK_BOOTHS);
         if (object != null) {
             return object.interact("Use-quickly");
@@ -52,7 +53,9 @@ public class Bank extends Methods {
     }
 
     public static boolean close() {
-        if (!isOpen()) return false;
+      if (!isOpen()) {
+      return true;
+  }
         Component c = Widgets.getComponent(12, 102);
         if (c != null) {
             return c.interact("Close");
